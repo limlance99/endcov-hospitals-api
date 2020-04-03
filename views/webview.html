@@ -30,12 +30,6 @@
       js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
-  </script>
-
-  <p>Click the button below.</p>
-
-  <button id="locationButton" type="submit">Share Location</button>
-  <script>
     window.extAsyncInit = function () {
       console.log('Messenger extensions are ready');
       $('#locationButton').click(function (event) {
@@ -72,9 +66,12 @@
         }
         navigator.geolocation.getCurrentPosition(showPosition);
       })
-
     }
   </script>
+
+  <p>Click the button below.</p>
+
+  <button id="locationButton" type="submit">Share Location</button>
 </body>
 
 </html>
