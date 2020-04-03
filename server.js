@@ -204,13 +204,9 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-});
-
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
+  response.json({
+    message: "Hello! Stay safe :D",
+  });
 });
 
 // listen for requests :)
