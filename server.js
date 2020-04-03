@@ -197,7 +197,6 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   
   requestPromise.post(options)
     .then(()=> {
-    console.log("done");
     response.json({});
   })
 })
