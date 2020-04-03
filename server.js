@@ -100,7 +100,26 @@ app.get('/nearest', (request, response) => {
 })
 
 app.get('/show-buttons', (request, response) => {
-  response.json({});
+  const {userId} = request.query;
+  const displayUrl = "";
+  response.json({
+    messages: [
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            image_aspect_ratio: 'square',
+            elements: [
+              {
+              title: "Hello friend";
+              }
+            ],
+          }
+        }
+      }
+    ]
+  });
 })
 
 app.get('/show-webview', (request, response) => {
