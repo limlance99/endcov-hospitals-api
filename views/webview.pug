@@ -44,20 +44,10 @@ html
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
                     }
-                    
                     function showPosition (position) {
-                        var psid;
-                    
-                        MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
-                            function success(context) {
-                                psid = context.psid;
-                            }, function error(err) {
-                                console.log("oh no", err);
-                                $("#close").text("An error occured. Please try again.");
-                            })
                         console.log("i am here")
                         const data = {
-                            userId: psid,
+                            userId: $('#userId').val(),
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
