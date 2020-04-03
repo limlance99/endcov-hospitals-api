@@ -155,9 +155,6 @@ app.get('/show-buttons', (request, response) => {
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
 
-app.get('/show-webview', (request, response) => {
-  response.sendFile(__dirname + '/views/webview.html');
-})
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
   
