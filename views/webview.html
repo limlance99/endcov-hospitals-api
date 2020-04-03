@@ -40,8 +40,16 @@
         
         $('#locationButton').click(function(event) {
           console.log("button pressed");
+          var psid;
           const showPosition = function(position) {
+            MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
+            function success(context) {
+              psid = context.psid;
+            }, function error(err) {
+              console.log("oh no", err);
+            })
             const data = {
+              userId: psid,
               latitude: position.coords.latitude,
               longitude: position.coords.longitude
             };

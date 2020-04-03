@@ -193,13 +193,14 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   const botId = process.env.CHATFUEL_BOT_ID;
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
-  const userId = "5e8026ca0d7161441439e92a";
+  const userId = request.body.userId;
   const blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   
   const query = Object.assign(
     {
     chatfuel_token: chatfuelToken, 
+    chatfuel_block_name: blockName,
     }, 
     {
       curr_lat,
@@ -218,8 +219,10 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
       'Content-Type': 'application/json'
     }
   }
+  console.log(chatfuelApiUrl);
   requestPromise.post(options)
     .then(()=> {
+    console.log("done");
     response.json({});
   })
 })
