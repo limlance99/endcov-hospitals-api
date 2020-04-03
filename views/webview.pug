@@ -1,0 +1,51 @@
+doctype html
+html
+    head
+        title= pageTitle
+        meta(name="description", content="Dynamic webview")
+        link(id="favicon", rel="icon", href="https://glitch.com/edit/favicon-app.ico", type="image/x-icon")
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+
+    body
+        script.
+            (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'Messenger'));
+
+        p Click the button below.
+
+        button(id="locationButton") Share Location
+
+        input(type="hidden" name="userId" id="userId" value=userId)
+
+        script. 
+            window.extAsyncInit = function () {
+            console.log('Messenger extensions are ready');
+            $('#locationButton').click(function (event) {
+                console.log("button pressed");
+            
+                const data = {
+                    userId: $('#userId'),
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+
+                $.post('/broadcast-to-chatfuel', data).done(function () {
+                    MessengerExtensions.requestCloseBrowser(function () {
+                    console.log("Window will be closed");
+                    }, function (error) {
+                    console.log("There is an error");
+                    console.log(error);
+                    })
+                })
+                }
+                navigator.geolocation.getCurrentPosition(showPosition);
+            })
+            } 
+

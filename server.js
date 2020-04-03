@@ -11,6 +11,9 @@ const bodyParser = require("body-parser");
 const url = require("url");
 const requestPromise = require("request-promise");
 
+app.set('view engine', 'pug');
+app.set('views', './views');
+
 app.use(bodyParser.urlencoded({extended:false}));
 
 // our default array of dreams
@@ -66,6 +69,9 @@ app.get("/", (request, response) => {
   });
 });
 
+// app.get("/show-webview", (request, response) => {
+//   response.sendFile(__dirname + '/views/show-webview.html');
+// })
 // Get user's location using latitude and longitude
 app.get('/nearest', (request, response) => {
   const latitude = request.query.latitude;
@@ -136,45 +142,18 @@ app.get('/nearest', (request, response) => {
   });
 })
 
-app.get('/show-buttons', (request, response) => {
-  const {userId} = request.query;
-  const displayUrl = "https://endcov-hospitals-api.herokuapp.com/show-webview.html";
-  response.json({
-    messages: [
-      {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'button',
-            text: 'I hope this is not an urgent need :o. Where are you located right now?',
-            buttons: [
-              {
-                title: "Share Location",
-                type: "web_url",
-                url: displayUrl,
-                messenger_extensions: true,
-                webview_height_ratio: "compact",
-              },
-            ],
-          }
-        }
-      }
-    ]
-  });
-})
-
 
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
   
   const curr_lat = request.body.latitude;
   const curr_long = request.body.longitude;
+  const userId = request.body.userId;
   
   const botId = process.env.CHATFUEL_BOT_ID;
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
-  const userId = "5e8026ca0d7161441439e92a";
-  console.log(request.body.userId);
+  console.log(userId);
   const blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   
@@ -207,6 +186,41 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   })
 })
 
+const createButtons = (displayUrl) => {
+  return  {messages: [
+    {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'button',
+          text: 'I hope this is not an urgent need :o. Where are you located right now?',
+          buttons: [
+            {
+              title: "Share Location",
+              type: "web_url",
+              url: displayUrl,
+              messenger_extensions: true,
+              webview_height_ratio: "compact",
+            },
+          ],
+        }
+      }
+    }
+  ]}
+};
+
+app.get('/show-buttons', (request, response) => {
+  const {userId} = request.query;
+  
+  const displayUrl = `https://endcov-hospitals-api.herokuapp.com/show-webview?userId=${userId}`;
+
+  response.json(createButtons(displayUrl)); 
+});
+
+app.get('/show-webview', (request, response) => {
+  const {userId} = request.query;
+  response.render('webview', {pageTitle: "Share Location", userId});
+})
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);

@@ -35,19 +35,19 @@
         console.log("button pressed");
         var psid = "none";
         const showPosition = function (position) {
-          // MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
-          //   function success(context) {
-          //     psid = context.psid;
-          //   }, function error(err) {
-          //     console.log("oh no", err);
-          //     psid = err;
-          //   })
-            MessengerExtensions.getSupportedFeatures(function success(result) {
-              psid = result.supported_features;
+          MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
+            function success(context) {
+              psid = context.psid;
             }, function error(err) {
-              // error retrieving supported features
+              console.log("oh no", err);
               psid = err;
-            });
+            })
+            // MessengerExtensions.getSupportedFeatures(function success(result) {
+            //   psid = result.supported_features;
+            // }, function error(err) {
+            //   // error retrieving supported features
+            //   psid = err;
+            // });
           const data = {
             userId: psid,
             latitude: position.coords.latitude,
