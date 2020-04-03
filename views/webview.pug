@@ -55,6 +55,7 @@ html
                         })
                     }
                     if (navigator.geolocation) {
+                        console.log("i got here tho");
                         navigator.geolocation.getCurrentPosition(showPosition);
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
