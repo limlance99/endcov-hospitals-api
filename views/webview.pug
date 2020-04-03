@@ -35,8 +35,16 @@ html
                 } else {
                     $('#close').text("Geolocation is not supported by this browser.")
                 }
-                console.log(window.name);
-                function showPosition (position) {
+                
+                $('#locationForm').submit(function (event) {
+                    event.preventDefault();
+                    
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else {
+                        $('#close').text("Geolocation is not supported by this browser.")
+                    }
+                    function showPosition (position) {
                     const data = {
                         userId: $('#userId').val(),
                         latitude: position.coords.latitude,
@@ -53,14 +61,6 @@ html
                             })
                     })
                 }
-                $('#locationForm').submit(function (event) {
-                    event.preventDefault();
-                    
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition);
-                    } else {
-                        $('#close').text("Geolocation is not supported by this browser.")
-                    }
                 })
             }
              
