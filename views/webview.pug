@@ -19,7 +19,7 @@ html
             }(document, 'script', 'Messenger'));
 
         p Click the button below.
-        p Be sure to have Location turned on in order for this to work.
+        p This may not work on PC. Be sure to have Location turned on in order for this to work.
 
         form(id="locationForm")
             button(id="locationButton" type="submit") Share Location
@@ -44,7 +44,7 @@ html
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
                     }
-                    
+
                     function showPosition (position) {
                         console.log("i am here")
                         const data = {
