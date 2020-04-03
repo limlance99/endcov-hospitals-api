@@ -65,8 +65,9 @@ const formatIntoMessage = (hospital) => {
   const contact = hospital.Contact ? hospital.Contact : "No contact details available.";
   const address = hospital.Address;
   
-  const message = `${name}\n\n${address}\n\n${contact}`;
-  return message;
+  const title = name;
+  const subtitle= `${address}\n\n${contact}`;
+  return {title, subtitle};
 }
 // Get user's location using latitude and longitude
 app.get('/nearest', (request, response) => {
@@ -83,20 +84,47 @@ app.get('/nearest', (request, response) => {
     if (distanceA > distanceB) return 1;
   });
   
-  const nearestLocations = locations.slice(0,5);
-  
+  const hospital1 = formatIntoMessage(locations[0]);
+  const hospital2 = formatIntoMessage(locations[1]);
+  const hospital3 = formatIntoMessage(locations[2]);
+  const hospital4 = formatIntoMessage(locations[3]);
+  const hospital5 = formatIntoMessage(locations[4]);
   
   response.json({
-    set_attributes:
-    {
-      hospital1: formatIntoMessage(nearestLocations[0]),
-      hospital2: formatIntoMessage(nearestLocations[1]),
-      hospital3: formatIntoMessage(nearestLocations[2]),
-      hospital4: formatIntoMessage(nearestLocations[3]),
-      hospital5: formatIntoMessage(nearestLocations[4]),
-    }
+    messages: [
+      {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            image_aspect_ratio: 'square',
+            elements: [
+              {
+                title: hospital1.title,
+                subtitle: hospital1.subtitle,
+              },  
+              {
+                title: hospital2.title,
+                subtitle: hospital2.subtitle,
+              },  
+              {
+                title: hospital3.title,
+                subtitle: hospital3.subtitle,
+              },  
+              {
+                title: hospital4.title,
+                subtitle: hospital4.subtitle,
+              },  
+              {
+                title: hospital5.title,
+                subtitle: hospital5.subtitle,
+              },  
+            ],
+          }
+        }
+      }
+    ]
   });
-  
 })
 
 app.get('/show-buttons', (request, response) => {
@@ -120,7 +148,7 @@ app.get('/show-buttons', (request, response) => {
                     url: displayUrl,
                     title: "Webview (compact)",
                     messenger_extensions: true,
-                    webview_height_ratio: 'compact'
+                    webview_height_ratio: "compact"
                   },
                   {
                     type: "web_url",
@@ -137,6 +165,10 @@ app.get('/show-buttons', (request, response) => {
                     webview_height_ratio: "full"
                   }
                 ]
+              },
+              {
+                title: "testing",
+                subtitle: "123",
               }
             ],
           }
