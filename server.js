@@ -140,7 +140,7 @@ app.get('/show-buttons', (request, response) => {
                 title: "Share Location",
                 type: "web_url",
                 url: displayUrl,
-                messenger_extensions: true,
+                messenger_extensions: false,
                 webview_height_ratio: "compact",
               },
             ],
