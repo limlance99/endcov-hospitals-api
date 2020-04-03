@@ -29,8 +29,12 @@ html
 
         script. 
             window.extAsyncInit = function () {
-                console.log('Messenger extensions are ready');
-                
+
+                if (navigator.geolocation) {
+                        //- navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    $('#close').text("Geolocation is not supported by this browser.")
+                }
                 $('#locationForm').submit(function (event) {
                     console.log("button pressed");
                     event.preventDefault();
