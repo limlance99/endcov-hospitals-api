@@ -60,6 +60,12 @@ const findNearestHospital = (latitude, longitude) => {
   return locations;
 };
 
+const formatIntoMessage = (hospital) => {
+  const name = hospital.Hospital;
+  const contact = hospital.Contact;
+  const address = hospital.Address;
+  
+}
 // Get user's location using latitude and longitude
 app.get('/nearest', (request, response) => {
   const latitude = request.query.latitude;
@@ -77,14 +83,16 @@ app.get('/nearest', (request, response) => {
   
   const nearestLocations = locations.slice(0,5);
   
+  
   response.json({
     messages: [
       {text: "Here are the 5 hospitals nearest to your location. I have also included their telephone numbers in case you need them. Hope this helps."},
-      {text: `${nearestLocations[0].Hospital}\n${nearestLocations[0].Contact ? }`},
-      {text: `${nearestLocations[1].Hospital}\n${nearestLocations[0].Contact}`},
-      {text: `${nearestLocations[2].Hospital}\n${nearestLocations[0].Contact}`},
-      {text: `${nearestLocations[3].Hospital}\n${nearestLocations[0].Contact}`},
-      {text: `${nearestLocations[4].Hospital}\n${nearestLocations[0].Contact}`},
+      {typing: 2},
+      {text: `${nearestLocations[0].Hospital}\n ${nearestLocations[0].Contact ? nearestLocations[0].Contact : "no contact details available." }`},
+      {text: `${nearestLocations[1].Hospital}\n ${nearestLocations[1].Contact ? nearestLocations[1].Contact : "no contact details available." }`},
+      {text: `${nearestLocations[2].Hospital}\n ${nearestLocations[2].Contact ? nearestLocations[2].Contact : "no contact details available." }`},
+      {text: `${nearestLocations[3].Hospital}\n ${nearestLocations[3].Contact ? nearestLocations[3].Contact : "no contact details available." }`},
+      {text: `${nearestLocations[4].Hospital}\n ${nearestLocations[4].Contact ? nearestLocations[4].Contact : "no contact details available." }`},
     ]
   });
   
