@@ -22,33 +22,7 @@ const dreams = [
 var contents = fs.readFileSync("listOfHospitals.json");
 // Define to JSON type
 const hospitalLocations = JSON.parse(contents);
-// const hospitalLocations = [
-//   {
-//     name: "Mariano Marcos Memorial & Medical Center",
-//     latitude: 18.060359,
-//     longitude: 120.559341
-//   },
-//   {
-//     name: "Gov. Roque B. Ablan Sr. Memorial Hospital",
-//     latitude: 18.199188,
-//     longitude: 120.601442
-//   },
-//   {
-//     name: "Sta. Teresita Hospital, Inc.",
-//     latitude: 18.0152,
-//     longitude: 120.673971
-//   },
-//   {
-//     name: "Bataan Doctors Hospital and Medical Center, Inc.",
-//     latitude: 14.682842,
-//     longitude: 120.542745
-//   },
-//   {
-//     name: "QUEZON CITY GENERAL HOSPITAL",
-//     latitude: 14.66111,
-//     longitude: 121.01815
-//   },
-// ]
+
 
 const findNearestHospital = (latitude, longitude) => {
   const locations = hospitalLocations.map(location => {
@@ -152,7 +126,7 @@ app.get('/nearest', (request, response) => {
 
 app.get('/show-buttons', (request, response) => {
   const {userId} = request.query;
-  const displayUrl = "https://endcov-hospitals-api.glitch.me/show-webview";
+  const displayUrl = "https://endcov-hospitals-api.herokuapp.com/show-webview";
   response.json({
     messages: [
       {
