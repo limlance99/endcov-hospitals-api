@@ -35,7 +35,7 @@ html
                 } else {
                     $('#close').text("Geolocation is not supported by this browser.")
                 }
-                showPosition (position) {
+                function showPosition (position) {
                     const data = {
                         userId: $('#userId').val(),
                         latitude: position.coords.latitude,
