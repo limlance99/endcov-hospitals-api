@@ -44,7 +44,9 @@
         const showPosition = function (position) {
           MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
             function success(context) {
-              psid = context.psid;
+              console.log("reg", psid);
+              console.log("this", this.psid);
+              this.psid = context.psid;
             }, function error(err) {
               console.log("oh no", err);
             })
