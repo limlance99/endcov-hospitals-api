@@ -5,6 +5,7 @@
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+const geolib = require("geolib");
 
 // our default array of dreams
 const dreams = [
@@ -12,6 +13,59 @@ const dreams = [
   "Climb a really tall mountain",
   "Wash the dishes"
 ];
+
+const hospitalLocations = [
+  {
+    name: "Mariano Marcos Memorial & Medical Center",
+    latitude: 18.060359,
+    longitude: 120.559341
+  },
+  {
+    name: "Gov. Roque B. Ablan Sr. Memorial Hospital",
+    latitude: 18.199188,
+    longitude: 120.601442
+  },
+  {
+    name: "Sta. Teresita Hospital, Inc.",
+    latitude: 18.0152,
+    longitude: 120.673971
+  },
+  {
+    name: "Bataan Doctors Hospital and Medical Center, Inc.",
+    latitude: 14.682842,
+    longitude: 120.542745
+  },
+  {
+    name: "QUEZON CITY GENERAL HOSPITAL",
+    latitude: 14.66111,
+    longitude: 121.01815
+  },
+]
+
+const findNearestBurgerJoints = (latitude, longitude) => {
+  const locations = hospitalLocations.map(location => {
+    const distance = geolib.getDistance({
+      latitude,
+      longitude
+    }, {
+      latitude: location.latitude,
+      longitude: location.longitude
+    });
+    
+    return Object.assign({}, location, distance)
+  })
+  
+}
+
+// Get user's location using latitude and longitude
+app.get('/nearest', (request, response) => {
+  const latitude = request.query.latitude;
+  const longitude = request.query.longitude;
+  
+  const locations = findNearestBurgerJoins(latitude, longitude);
+  
+  response.json({locations});
+})
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
