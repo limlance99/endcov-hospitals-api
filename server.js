@@ -65,8 +65,14 @@ const formatIntoMessage = (hospital) => {
   const contact = hospital.Contact ? hospital.Contact : "No contact details available.";
   const address = hospital.Address;
   
+  // text style
+  // const message = `${name}\n\n${address}\n\n${contact}`;
+  // return message;
+  
+  // gallery style
   const title = name;
   const subtitle= `${address}\n\n${contact}`;
+  
   return {title, subtitle};
 }
 // Get user's location using latitude and longitude
@@ -90,6 +96,18 @@ app.get('/nearest', (request, response) => {
   const hospital4 = formatIntoMessage(locations[3]);
   const hospital5 = formatIntoMessage(locations[4]);
   
+  // text style
+  // response.json({
+  //   messages: [
+  //     {text: hospital1},
+  //     {text: hospital2},
+  //     {text: hospital3},
+  //     {text: hospital4},
+  //     {text: hospital5},
+  //   ]
+  // })
+  
+  // gallery style
   response.json({
     messages: [
       {
@@ -129,7 +147,7 @@ app.get('/nearest', (request, response) => {
 
 app.get('/show-buttons', (request, response) => {
   const {userId} = request.query;
-  const displayUrl = "https://endcov-hospitals-api.glitch.me/";
+  const displayUrl = "https://endcov-hospitals-api.glitch.me/show-webview";
   response.json({
     messages: [
       {
@@ -166,10 +184,6 @@ app.get('/show-buttons', (request, response) => {
                   }
                 ]
               },
-              {
-                title: "testing",
-                subtitle: "123",
-              }
             ],
           }
         }
@@ -178,16 +192,17 @@ app.get('/show-buttons', (request, response) => {
   });
 })
 
+// make all the files in 'public' available
+// https://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
+
 app.get('/show-webview', (request, response) => {
-  response.sendFile(__dirname + '/views/index.html');
+  response.sendFile(__dirname + '/views/webview.html');
 })
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
   response.json({});
 })
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
