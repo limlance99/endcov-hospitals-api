@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "geolib": "^3.2.1"
+    "geolib": "^3.2.1",
+    "body-parser": "^1.19.0"
   },
   "engines": {
     "node": "12.x"

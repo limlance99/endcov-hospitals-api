@@ -7,6 +7,7 @@ const express = require("express");
 const app = express();
 const geolib = require("geolib");
 const fs = require("fs");
+const bodyParser = require("body-parser");
 
 // our default array of dreams
 const dreams = [
@@ -201,6 +202,7 @@ app.get('/show-webview', (request, response) => {
 })
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
+  console.log(request.body.parse);
   response.json({});
 })
 

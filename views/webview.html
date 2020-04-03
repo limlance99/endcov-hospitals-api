@@ -62,19 +62,20 @@ function showPosition(position) {
         $('#locationButton').click(function(event) {
           console.log("button pressed");
           const showPosition = function(position) {
-            console.log("hello")
+            const data = {position};
+
+            $.post('/broadcast-to-chatfuel', data, function(stuff) {
+               MessengerExtensions.requestCloseBrowser(function() {
+                console.log("Window will be closed");
+              }, function(error) {
+                console.log("There is an error");
+                console.log(error);
+              })
+            })  
           }
-          const thing = navigator.geolocation.getCurrentPosition(showPosition);
-          
-          console.log(thing);
-          
+          navigator.geolocation.getCurrentPosition(showPosition);          
         })
-        MessengerExtensions.requestCloseBrowser(function() {
-          console.log("Window will be closed");
-        }, function(error) {
-          console.log("There is an error");
-          console.log(error);
-        })
+       
       }
     </script>
   </body>
