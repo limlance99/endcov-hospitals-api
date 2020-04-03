@@ -8,6 +8,8 @@ const app = express();
 const geolib = require("geolib");
 const fs = require("fs");
 const bodyParser = require("body-parser");
+const url = require("url");
+const axios = require("axios");
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -205,13 +207,34 @@ app.get('/show-webview', (request, response) => {
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
   
-  const latitude = request.body.latitude;
-  const longitude = request.body.longitude;
+  const curr_lat = request.body.latitude;
+  const curr_long = request.body.longitude;
   
   const botId = process.env.CHATFUEL_BOT_ID;
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
-  const userId
+  const userId = "5e8026ca0d7161441439e92a";
+  
+  const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
+  
+  const query = Object.assign(
+    {
+    chatfuel_token: chatfuelToken, 
+    }, 
+    {
+      curr_lat,
+      curr_long
+    }
+  );
+  
+  const chatfuelApiUrl = url.format({
+    pathname: broadcastApiUrl,
+    query
+  })
+  
+  axios.post(chatfuelApiUrl).err((err) => {
+    console.log(err, "oh no");
+  });
   response.json({});
 })
 
