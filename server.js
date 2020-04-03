@@ -87,14 +87,14 @@ app.get('/nearest', (request, response) => {
   
   
   response.json({
-    messages: [
-      {text: "Here are the 5 hospitals nearest to your location. I have also included their telephone numbers in case you need them. Hope this helps."},
-      {text: formatIntoMessage(nearestLocations[0])},
-      {text: formatIntoMessage(nearestLocations[1])},
-      {text: formatIntoMessage(nearestLocations[2])},
-      {text: formatIntoMessage(nearestLocations[3])},
-      {text: formatIntoMessage(nearestLocations[4])},
-    ]
+    set_attributes:
+    {
+      hospital1: formatIntoMessage(nearestLocations[0]),
+      hospital2: formatIntoMessage(nearestLocations[1]),
+      hospital3: formatIntoMessage(nearestLocations[2]),
+      hospital4: formatIntoMessage(nearestLocations[3]),
+      hospital5: formatIntoMessage(nearestLocations[4]),
+    }
   });
   
 })
