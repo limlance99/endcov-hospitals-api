@@ -75,9 +75,17 @@ app.get('/nearest', (request, response) => {
     if (distanceA > distanceB) return 1;
   });
   
-  const nearestLocation = locations.slice(0,5);
+  const nearestLocations = locations.slice(0,5);
   
-  response.json({nearestLocation});
+  response.json({
+    messages: [
+      {text: nearestLocations[0].Hospital},
+      {text: nearestLocations[1].Hospital},
+      {text: nearestLocations[2].Hospital},
+      {text: nearestLocations[3].Hospital},
+      {text: nearestLocations[4].Hospital},
+    ]
+  });
 })
 
 // make all the files in 'public' available
