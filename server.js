@@ -99,6 +99,17 @@ app.get('/nearest', (request, response) => {
   
 })
 
+app.get('/show-buttons', (request, response) => {
+  response.json({});
+})
+
+app.get('/show-webview', (request, response) => {
+  response.sendFile(__dirname + '/views/index.html');
+})
+
+app.post('/broadcast-to-chatfuel', (request, response) => {
+  response.json({});
+})
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
