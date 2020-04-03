@@ -48,7 +48,11 @@ html
                                 })
                         })
                     }
-                    navigator.geolocation.getCurrentPosition(showPosition);
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else {
+                        $('#close').text("Geolocation is not supported by this browser.")
+                    }
                 })
             }
              
