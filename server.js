@@ -159,35 +159,15 @@ app.get('/show-buttons', (request, response) => {
         attachment: {
           type: 'template',
           payload: {
-            template_type: 'generic',
-            image_aspect_ratio: 'square',
-            elements: [
+            template_type: 'button',
+            text: 'I hope this is not an urgent need :o. Where are you located right now?',
+            buttons: [
               {
-                title: "I hope this is not an urgent need. Where are you located right now?",
-                subtitle: "",
-                buttons: [
-                  {
-                    type: "web_url",
-                    url: displayUrl,
-                    title: "Share Location",
-                    messenger_extensions: true,
-                    webview_height_ratio: "compact"
-                  },
-                  {
-                    type: "web_url",
-                    url: displayUrl,
-                    title: "Share Location",
-                    messenger_extensions: true,
-                    webview_height_ratio: "tall"
-                  },
-                  {
-                    type: "web_url",
-                    url: displayUrl,
-                    title: "Share Location",
-                    messenger_extensions: true,
-                    webview_height_ratio: "compact"
-                  },
-                ]
+                title: "Share Location",
+                type: "web_url",
+                url: displayUrl,
+                messenger_extensions: true,
+                webview_height_ratio: "compact",
               },
             ],
           }
