@@ -6,6 +6,7 @@
 const express = require("express");
 const app = express();
 const geolib = require("geolib");
+const fs = require("fs");
 
 // our default array of dreams
 const dreams = [
@@ -13,34 +14,36 @@ const dreams = [
   "Climb a really tall mountain",
   "Wash the dishes"
 ];
-
-const hospitalLocations = [
-  {
-    name: "Mariano Marcos Memorial & Medical Center",
-    latitude: 18.060359,
-    longitude: 120.559341
-  },
-  {
-    name: "Gov. Roque B. Ablan Sr. Memorial Hospital",
-    latitude: 18.199188,
-    longitude: 120.601442
-  },
-  {
-    name: "Sta. Teresita Hospital, Inc.",
-    latitude: 18.0152,
-    longitude: 120.673971
-  },
-  {
-    name: "Bataan Doctors Hospital and Medical Center, Inc.",
-    latitude: 14.682842,
-    longitude: 120.542745
-  },
-  {
-    name: "QUEZON CITY GENERAL HOSPITAL",
-    latitude: 14.66111,
-    longitude: 121.01815
-  },
-]
+var contents = fs.readFileSync("listOfHospitals.json");
+// Define to JSON type
+const hospitalLocations = JSON.parse(contents);
+// const hospitalLocations = [
+//   {
+//     name: "Mariano Marcos Memorial & Medical Center",
+//     latitude: 18.060359,
+//     longitude: 120.559341
+//   },
+//   {
+//     name: "Gov. Roque B. Ablan Sr. Memorial Hospital",
+//     latitude: 18.199188,
+//     longitude: 120.601442
+//   },
+//   {
+//     name: "Sta. Teresita Hospital, Inc.",
+//     latitude: 18.0152,
+//     longitude: 120.673971
+//   },
+//   {
+//     name: "Bataan Doctors Hospital and Medical Center, Inc.",
+//     latitude: 14.682842,
+//     longitude: 120.542745
+//   },
+//   {
+//     name: "QUEZON CITY GENERAL HOSPITAL",
+//     latitude: 14.66111,
+//     longitude: 121.01815
+//   },
+// ]
 
 const findNearestHospital = (latitude, longitude) => {
   const locations = hospitalLocations.map(location => {
@@ -48,8 +51,8 @@ const findNearestHospital = (latitude, longitude) => {
       latitude,
       longitude
     }, {
-      latitude: location.latitude,
-      longitude: location.longitude
+      latitude: location.LATITUDE,
+      longitude: location.LONGITUDE
     });
     
     return Object.assign({}, location, {distance});
@@ -72,7 +75,7 @@ app.get('/nearest', (request, response) => {
     if (distanceA > distanceB) return 1;
   });
   
-  const nearestLocation = locations.slice(0,3);
+  const nearestLocation = locations.slice(0,5);
   
   response.json({nearestLocation});
 })
