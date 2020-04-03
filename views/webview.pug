@@ -20,7 +20,8 @@ html
 
         p Click the button below.
 
-        button(id="locationButton") Share Location
+        form(id="locationForm")
+            button(id="locationButton" type="submit") Share Location
         
         p(id="close")
         input(type="hidden" name="userId" id="userId" value=userId)
@@ -29,7 +30,7 @@ html
             window.extAsyncInit = function () {
                 console.log('Messenger extensions are ready');
                 
-                $('#locationButton').click(function (event) {
+                $('#locationForm').submit(function (event) {
                     console.log("button pressed");
                     const showPosition = function (position) {
                         const data = {
