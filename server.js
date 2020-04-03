@@ -168,7 +168,7 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
   const userId = "5e8026ca0d7161441439e92a";
-  console.log(userId);
+  console.log(request.body.userId);
   const blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   

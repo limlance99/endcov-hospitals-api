@@ -2,71 +2,72 @@
 <!-- served from your routes in server.js -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>User Location</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
 
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
+<head>
+  <meta charset="utf-8">
+  <title>User Location</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A cool thing made with Glitch">
+  <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
 
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/script.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      
-  </head>
-  <body>
-    
+  <!-- import the webpage's stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- import the webpage's client-side javascript file -->
+  <script src="/script.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
   <script>
-    (function(d, s, id){
+    (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
+      if (d.getElementById(id)) { return; }
       js = d.createElement(s); js.id = id;
       js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
-    </script>
-    
-    <p>Click the button below.</p>
+  </script>
 
-  <button id="locationButton" type="submit">Send Location</button>
-    <script>
-      window.extAsyncInit = function() {
-        console.log('Messenger extensions are ready');
-        
-        
-        $('#locationButton').click(function(event) {
-          console.log("button pressed");
-          var psid;
-          const showPosition = function(position) {
-            MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
+  <p>Click the button below.</p>
+
+  <button id="locationButton" type="submit">Share Location</button>
+  <script>
+    window.extAsyncInit = function () {
+      console.log('Messenger extensions are ready');
+      $('#locationButton').click(function (event) {
+        console.log("button pressed");
+        var psid;
+        const showPosition = function (position) {
+          MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
             function success(context) {
               psid = context.psid;
             }, function error(err) {
               console.log("oh no", err);
             })
-            const data = {
-              userId: psid,
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            };
+          const data = {
+            userId: psid,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
 
-            $.post('/broadcast-to-chatfuel', data).done(function() {
-               MessengerExtensions.requestCloseBrowser(function() {
-                console.log("Window will be closed");
-              }, function(error) {
-                console.log("There is an error");
-                console.log(error);
-              })
-            })  
-          }
-          navigator.geolocation.getCurrentPosition(showPosition);          
-        })
-       
-      }
-    </script>
-  </body>
+          $.post('/broadcast-to-chatfuel', data).done(function () {
+            MessengerExtensions.requestCloseBrowser(function () {
+              console.log("Window will be closed");
+            }, function (error) {
+              console.log("There is an error");
+              console.log(error);
+            })
+          })
+        }
+        navigator.geolocation.getCurrentPosition(showPosition);
+      })
+
+    }
+  </script>
+</body>
+
 </html>
