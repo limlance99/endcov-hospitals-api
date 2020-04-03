@@ -163,30 +163,30 @@ app.get('/show-buttons', (request, response) => {
             image_aspect_ratio: 'square',
             elements: [
               {
-                title: "Hello friend",
-                subtitle: "Choose your preferences",
+                title: "I hope this is not an urgent need. Where are you located right now?",
+                subtitle: "",
                 buttons: [
                   {
                     type: "web_url",
                     url: displayUrl,
-                    title: "Webview (compact)",
+                    title: "Share Location",
                     messenger_extensions: true,
                     webview_height_ratio: "compact"
                   },
                   {
                     type: "web_url",
                     url: displayUrl,
-                    title: "Webview (tall)",
+                    title: "Share Location",
                     messenger_extensions: true,
                     webview_height_ratio: "tall"
                   },
                   {
                     type: "web_url",
                     url: displayUrl,
-                    title: "Webview (full)",
+                    title: "Share Location",
                     messenger_extensions: true,
-                    webview_height_ratio: "full"
-                  }
+                    webview_height_ratio: "compact"
+                  },
                 ]
               },
             ],
