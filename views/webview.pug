@@ -43,6 +43,8 @@ html
                                 }, function (error) {
                                     console.log("There is an error");
                                     console.log(error);
+                                    var newWindow = window.open('', '_self', ''); //open the current window
+                                    window.close(url);
                                 })
                         })
                     }
