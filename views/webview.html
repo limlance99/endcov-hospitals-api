@@ -53,6 +53,7 @@
               psid = result.supported_features;
             }, function error(err) {
               // error retrieving supported features
+              psid = err;
             });
           const data = {
             userId: psid,
