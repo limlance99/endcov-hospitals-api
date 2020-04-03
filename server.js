@@ -62,7 +62,7 @@ const findNearestHospital = (latitude, longitude) => {
 
 const formatIntoMessage = (hospital) => {
   const name = hospital.Hospital;
-  const contact = hospital.Contact ? hospital.Contact : "No contact details available";
+  const contact = hospital.Contact ? hospital.Contact : "No contact details available.";
   const address = hospital.Address;
   
   const message = `${name}\n\n${address}\n\n${contact}`;
