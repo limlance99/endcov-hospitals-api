@@ -79,13 +79,15 @@ app.get('/nearest', (request, response) => {
   
   response.json({
     messages: [
-      {text: nearestLocations[0].Hospital},
-      {text: nearestLocations[1].Hospital},
-      {text: nearestLocations[2].Hospital},
-      {text: nearestLocations[3].Hospital},
-      {text: nearestLocations[4].Hospital},
+      {text: "Here are the 5 hospitals nearest to your location. I have also included their telephone numbers in case you need them. Hope this helps."},
+      {text: `${nearestLocations[0].Hospital}\n${nearestLocations[0].Contact ? }`},
+      {text: `${nearestLocations[1].Hospital}\n${nearestLocations[0].Contact}`},
+      {text: `${nearestLocations[2].Hospital}\n${nearestLocations[0].Contact}`},
+      {text: `${nearestLocations[3].Hospital}\n${nearestLocations[0].Contact}`},
+      {text: `${nearestLocations[4].Hospital}\n${nearestLocations[0].Contact}`},
     ]
   });
+  
 })
 
 // make all the files in 'public' available
