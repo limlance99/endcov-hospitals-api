@@ -35,28 +35,28 @@ html
                 } else {
                     $('#close').text("Geolocation is not supported by this browser.")
                 }
+                showPosition (position) {
+                    const data = {
+                        userId: $('#userId').val(),
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    console.log("i am here")
+                    $.post('/broadcast-to-chatfuel', data).done(function () {
+                        $('#close').text("You may now close this window.");
+                        MessengerExtensions.requestCloseBrowser(function () {
+                                console.log("Window will be closed");
+                            }, function (error) {
+                                console.log("There is an error");
+                                console.log(error);
+                            })
+                    })
+                }
                 $('#locationForm').submit(function (event) {
                     event.preventDefault();
-                    showPosition (position) {
-                        const data = {
-                            userId: $('#userId').val(),
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        };
-                        console.log("i am here")
-                        $.post('/broadcast-to-chatfuel', data).done(function () {
-                            $('#close').text("You may now close this window.");
-                            MessengerExtensions.requestCloseBrowser(function () {
-                                    console.log("Window will be closed");
-                                }, function (error) {
-                                    console.log("There is an error");
-                                    console.log(error);
-                                })
-                        })
-                    }
+                    
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(showPosition);
-                        console.log("i got here thomehn");
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
                     }
