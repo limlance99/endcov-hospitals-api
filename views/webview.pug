@@ -36,7 +36,6 @@ html
                     $('#close').text("Geolocation is not supported by this browser.")
                 }
                 $('#locationForm').submit(function (event) {
-                    console.log("button pressed");
                     event.preventDefault();
                     const showPosition = function (position) {
                         const data = {
@@ -44,7 +43,7 @@ html
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
-
+                        console.log("i am here")
                         $.post('/broadcast-to-chatfuel', data).done(function () {
                             $('#close').text("You may now close this window.");
                             MessengerExtensions.requestCloseBrowser(function () {
