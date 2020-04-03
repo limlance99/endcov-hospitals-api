@@ -37,7 +37,7 @@ html
                 }
                 $('#locationForm').submit(function (event) {
                     event.preventDefault();
-                    const showPosition = function (position) {
+                    showPosition (position) {
                         const data = {
                             userId: $('#userId').val(),
                             latitude: position.coords.latitude,
