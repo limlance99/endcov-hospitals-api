@@ -15,6 +15,8 @@
 
     <!-- import the webpage's client-side javascript file -->
     <script src="/script.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      
   </head>
   <body>
     
@@ -30,7 +32,9 @@
     
     <p>Click the button to get your coordinates.</p>
 
-<button onclick="getLocation()">Try It</button>
+<!-- <form id="locationForm"> -->
+  <button onclick="getLocation()" id="locationButton">Try It</button>
+<!-- </form> -->
 
 <p id="demo"></p>
 
@@ -55,7 +59,16 @@ function showPosition(position) {
         console.log('Messenger extensions are ready');
         
         
-        
+        $('#locationButton').click(function(event) {
+          console.log("button pressed");
+          const showPosition = function(position) {
+            console.log("hello")
+          }
+          const thing = navigator.geolocation.getCurrentPosition(showPosition);
+          
+          console.log(thing);
+          
+        })
         MessengerExtensions.requestCloseBrowser(function() {
           console.log("Window will be closed");
         }, function(error) {
