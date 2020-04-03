@@ -30,11 +30,9 @@
     }(document, 'script', 'Messenger'));
     </script>
     
-    <p>Click the button to get your coordinates.</p>
+    <p>Click the button below.</p>
 
-  <button onclick="getLocation()" id="locationButton">Try It</button>
-
-<p id="demo"></p>
+  <button onclick="getLocation()" id="locationButton" type="submit">Send Location</button>
     <script>
       window.extAsyncInit = function() {
         console.log('Messenger extensions are ready');

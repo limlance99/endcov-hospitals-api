@@ -9,7 +9,7 @@ const geolib = require("geolib");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const url = require("url");
-const axios = require("axios");
+const requestPromise = require("request-promise");
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -214,7 +214,7 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
   const userId = "5e8026ca0d7161441439e92a";
-  
+  const blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   
   const query = Object.assign(
@@ -232,10 +232,16 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
     query
   })
   
-  axios.post(chatfuelApiUrl).err((err) => {
-    console.log(err, "oh no");
-  });
-  response.json({});
+  const options = {
+    uri: chatfuelApiUrl,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  requestPromise.post(options)
+    .then(()=> {
+    response.json({});
+  })
 })
 
 // https://expressjs.com/en/starter/basic-routing.html

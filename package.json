@@ -14,8 +14,8 @@
     "geolib": "^3.2.1",
     "body-parser": "^1.19.0",
     "axios": "^0.19.2",
-    "request": ^2.34,
-    ""
+    "request": "^2.34",
+    "request-promise": "^4.2.2"
   },
   "engines": {
     "node": "12.x"
