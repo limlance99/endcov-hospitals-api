@@ -101,7 +101,7 @@ app.get('/nearest', (request, response) => {
 
 app.get('/show-buttons', (request, response) => {
   const {userId} = request.query;
-  const displayUrl = "";
+  const displayUrl = "https://endcov-hospitals-api.glitch.me/";
   response.json({
     messages: [
       {
@@ -112,7 +112,31 @@ app.get('/show-buttons', (request, response) => {
             image_aspect_ratio: 'square',
             elements: [
               {
-              title: "Hello friend";
+                title: "Hello friend",
+                subtitle: "Choose your preferences",
+                buttons: [
+                  {
+                    type: "web_url",
+                    url: displayUrl,
+                    title: "Webview (compact)",
+                    messenger_extensions: true,
+                    webview_height_ratio: 'compact'
+                  },
+                  {
+                    type: "web_url",
+                    url: displayUrl,
+                    title: "Webview (tall)",
+                    messenger_extensions: true,
+                    webview_height_ratio: "tall"
+                  },
+                  {
+                    type: "web_url",
+                    url: displayUrl,
+                    title: "Webview (full)",
+                    messenger_extensions: true,
+                    webview_height_ratio: "full"
+                  }
+                ]
               }
             ],
           }
