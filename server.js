@@ -193,7 +193,8 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   const botId = process.env.CHATFUEL_BOT_ID;
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
-  const userId = request.body.userId;
+  const userId = "5e8026ca0d7161441439e92a";
+  console.log(userId);
   const blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   
@@ -219,7 +220,7 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
       'Content-Type': 'application/json'
     }
   }
-  console.log(chatfuelApiUrl);
+  
   requestPromise.post(options)
     .then(()=> {
     console.log("done");
