@@ -21,7 +21,8 @@ html
         p Click the button below.
 
         button(id="locationButton") Share Location
-
+        
+        p(id="close")
         input(type="hidden" name="userId" id="userId" value=userId)
 
         script. 
@@ -38,13 +39,12 @@ html
                         };
 
                         $.post('/broadcast-to-chatfuel', data).done(function () {
+                            $('#close').text("You may now close this window.");
                             MessengerExtensions.requestCloseBrowser(function () {
                                     console.log("Window will be closed");
                                 }, function (error) {
                                     console.log("There is an error");
                                     console.log(error);
-                                    var newWindow = window.open('', '_self', ''); //open the current window
-                                    window.close(url);
                                 })
                         })
                     }
