@@ -54,6 +54,18 @@ const formatIntoMessage = (hospital) => {
   
   return {title, subtitle};
 }
+
+// make all the files in 'public' available
+// https://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
+
+// https://expressjs.com/en/starter/basic-routing.html
+app.get("/", (request, response) => {
+  response.json({
+    message: "Hello! Stay safe :D",
+  });
+});
+
 // Get user's location using latitude and longitude
 app.get('/nearest', (request, response) => {
   const latitude = request.query.latitude;
@@ -126,7 +138,7 @@ app.get('/nearest', (request, response) => {
 
 app.get('/show-buttons', (request, response) => {
   const {userId} = request.query;
-  const displayUrl = "https://endcov-hospitals-api.herokuapp.com/show-webview";
+  const displayUrl = "https://endcov-hospitals-api.herokuapp.com/show-webview.html";
   response.json({
     messages: [
       {
@@ -140,7 +152,7 @@ app.get('/show-buttons', (request, response) => {
                 title: "Share Location",
                 type: "web_url",
                 url: displayUrl,
-                messenger_extensions: false,
+                messenger_extensions: true,
                 webview_height_ratio: "compact",
               },
             ],
@@ -151,9 +163,6 @@ app.get('/show-buttons', (request, response) => {
   });
 })
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
 
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
@@ -197,13 +206,6 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
     response.json({});
   })
 })
-
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.json({
-    message: "Hello! Stay safe :D",
-  });
-});
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
