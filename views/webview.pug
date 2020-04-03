@@ -32,6 +32,7 @@ html
                 
                 $('#locationForm').submit(function (event) {
                     console.log("button pressed");
+                    event.preventDefault();
                     const showPosition = function (position) {
                         const data = {
                             userId: $('#userId').val(),
