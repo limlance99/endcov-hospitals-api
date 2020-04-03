@@ -42,7 +42,7 @@ const hospitalLocations = [
   },
 ]
 
-const findNearestBurgerJoints = (latitude, longitude) => {
+const findNearestHospital = (latitude, longitude) => {
   const locations = hospitalLocations.map(location => {
     const distance = geolib.getDistance({
       latitude,
@@ -52,19 +52,29 @@ const findNearestBurgerJoints = (latitude, longitude) => {
       longitude: location.longitude
     });
     
-    return Object.assign({}, location, distance)
-  })
-  
-}
+    return Object.assign({}, location, {distance});
+  });
+  return locations;
+};
 
 // Get user's location using latitude and longitude
 app.get('/nearest', (request, response) => {
   const latitude = request.query.latitude;
   const longitude = request.query.longitude;
   
-  const locations = findNearestBurgerJoins(latitude, longitude);
+  const locations = findNearestHospital(latitude, longitude);
   
-  response.json({locations});
+  locations.sort((locationA, locationB) => {
+    const distanceA = locationA.distance;
+    const distanceB = locationB.distance;
+    
+    if (distanceA < distanceB) return -1;
+    if (distanceA > distanceB) return 1;
+  });
+  
+  const nearestLocation = locations.slice(0,3);
+  
+  response.json({nearestLocation});
 })
 
 // make all the files in 'public' available
