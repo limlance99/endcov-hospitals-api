@@ -40,7 +40,7 @@
       console.log('Messenger extensions are ready');
       $('#locationButton').click(function (event) {
         console.log("button pressed");
-        var psid;
+        var psid = "none";
         const showPosition = function (position) {
           MessengerExtensions.getContext("5e7f596af60d4b5d637c0076",
             function success(context) {
