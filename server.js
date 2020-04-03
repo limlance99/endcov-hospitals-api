@@ -9,6 +9,8 @@ const geolib = require("geolib");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({extended:false}));
+
 // our default array of dreams
 const dreams = [
   "Find and count some sheep",
@@ -202,7 +204,14 @@ app.get('/show-webview', (request, response) => {
 })
 
 app.post('/broadcast-to-chatfuel', (request, response) => {
-  console.log(request.body.parse);
+  
+  const latitude = request.body.latitude;
+  const longitude = request.body.longitude;
+  
+  const botId = process.env.CHATFUEL_BOT_ID;
+  const chatfuelToken = process.env.CHATFUEL_TOKEN;
+  
+  const userId
   response.json({});
 })
 

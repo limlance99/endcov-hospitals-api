@@ -32,28 +32,9 @@
     
     <p>Click the button to get your coordinates.</p>
 
-<!-- <form id="locationForm"> -->
   <button onclick="getLocation()" id="locationButton">Try It</button>
-<!-- </form> -->
 
 <p id="demo"></p>
-
-<script>
-var x = document.getElementById("demo");
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else { 
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + position.coords.longitude;
-}
-</script>
     <script>
       window.extAsyncInit = function() {
         console.log('Messenger extensions are ready');
@@ -62,9 +43,12 @@ function showPosition(position) {
         $('#locationButton').click(function(event) {
           console.log("button pressed");
           const showPosition = function(position) {
-            const data = {position};
+            const data = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            };
 
-            $.post('/broadcast-to-chatfuel', data, function(stuff) {
+            $.post('/broadcast-to-chatfuel', data).done(function() {
                MessengerExtensions.requestCloseBrowser(function() {
                 console.log("Window will be closed");
               }, function(error) {
