@@ -40,12 +40,11 @@ html
                     event.preventDefault();
                     
                     if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition);
+                        navigator.geolocation.getCurrentPosition(showPosition, geoError);
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
                     }
-                    console.log(position.coords.latitude);
-                    console.log(position.coords.longitude);
+                    
                     function showPosition (position) {
                         console.log("i am here")
                         const data = {
@@ -53,17 +52,19 @@ html
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
-                        //- $.post('/broadcast-to-chatfuel', data).done(function () {
-                        //-     $('#close').text("You may now close this window.");
-                        //-     MessengerExtensions.requestCloseBrowser(function () {
-                        //-             console.log("Window will be closed");
-                        //-         }, function (error) {
-                        //-             console.log("There is an error");
-                        //-             console.log(error);
-                        //-         })
-                        //- })
-                        $('#close').text(`${position.coords.latitude} and ${position.coords.longitude}`);
-                        
+                        $.post('/broadcast-to-chatfuel', data).done(function () {
+                            $('#close').text("You may now close this window.");
+                            MessengerExtensions.requestCloseBrowser(function () {
+                                    console.log("Window will be closed");
+                                }, function (error) {
+                                    console.log("There is an error");
+                                    console.log(error);
+                                })
+                        }) 
+                    };
+
+                    function geoError(event) {
+                        console.log(`${event.code}. ${event.message}`);
                     }
                 })
             }
