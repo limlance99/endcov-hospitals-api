@@ -193,7 +193,7 @@ const createButtons = (displayUrl) => {
         type: 'template',
         payload: {
           template_type: 'button',
-          text: 'I hope this is not an urgent need :o. Where are you located right now?',
+          text: 'I hope this is not an urgent need. Where are you located right now?',
           buttons: [
             {
               title: "Share Location",

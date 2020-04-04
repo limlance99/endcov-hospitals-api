@@ -52,15 +52,16 @@ html
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
-                        $.post('/broadcast-to-chatfuel', data).done(function () {
-                            $('#close').text("You may now close this window.");
-                            MessengerExtensions.requestCloseBrowser(function () {
-                                    console.log("Window will be closed");
-                                }, function (error) {
-                                    console.log("There is an error");
-                                    console.log(error);
-                                })
-                        })
+                        //- $.post('/broadcast-to-chatfuel', data).done(function () {
+                        //-     $('#close').text("You may now close this window.");
+                        //-     MessengerExtensions.requestCloseBrowser(function () {
+                        //-             console.log("Window will be closed");
+                        //-         }, function (error) {
+                        //-             console.log("There is an error");
+                        //-             console.log(error);
+                        //-         })
+                        //- })
+                        $('#close').text(`${position.coords.latitude} and ${position.coords.longitude}`);
                     }
                 })
             }
