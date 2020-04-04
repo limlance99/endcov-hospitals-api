@@ -8,7 +8,6 @@ body {
   font-family: sans-serif;
   margin: 2em 1em;
   line-height: 1.5em;
-  align: center;
 }
 
 h1 {
@@ -27,7 +26,7 @@ form {
 }
 
 input {
-  border: 1px solid silver;
+  border: 2px solid silver;
   display: block;
   font-size: 16px;
   margin-bottom: 10px;
@@ -36,9 +35,9 @@ input {
 }
 
 form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: .25em;
+  background-color: currentColor;
+  border: 2px solid #00c6d7;
+  border-radius: 16px;
   cursor: pointer;
   font-size: inherit;
   line-height: 1.4em;
