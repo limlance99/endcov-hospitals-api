@@ -29,11 +29,11 @@ html
 
         script. 
 
-            var iframe = document.getElementsByName("messenger_ref");
+            var iframe = frameElement;
             iframe.setAttribute("allow", "geolocation");
+            console.log(iframe);
             window.extAsyncInit = function () {
                 
-                console.log($('iframe[name="messenger_ref"]'));
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
                 } else {
