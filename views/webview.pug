@@ -44,7 +44,8 @@ html
                     } else {
                         $('#close').text("Geolocation is not supported by this browser.")
                     }
-
+                    console.log(position.coords.latitude);
+                    console.log(position.coords.longitude);
                     function showPosition (position) {
                         console.log("i am here")
                         const data = {
@@ -62,8 +63,7 @@ html
                         //-         })
                         //- })
                         $('#close').text(`${position.coords.latitude} and ${position.coords.longitude}`);
-                        console.log(position.coords.latitude);
-                        console.log(position.coords.longitude);
+                        
                     }
                 })
             }
