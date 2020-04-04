@@ -66,6 +66,7 @@ html
 
                     function geoError(event) {
                         console.log(`${event.code}. ${event.message}`);
+                        $('#close').text("Geolocation is not supported by this browser. Try using a phone instead.")
                     }
                 })
             }
