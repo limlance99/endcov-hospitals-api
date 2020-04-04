@@ -200,7 +200,7 @@ const createButtons = (displayUrl) => {
               type: "web_url",
               url: displayUrl,
               messenger_extensions: true,
-              webview_height_ratio: "compact",
+              webview_height_ratio: "tall",
             },
           ],
         }

@@ -35,7 +35,7 @@ input {
 }
 
 form button {
-  background-color: currentColor;
+  background-color: white;
   border: 2px solid #00c6d7;
   border-radius: 16px;
   cursor: pointer;
@@ -47,7 +47,9 @@ form button {
 }
 
 form button:hover {
-  background-color: white;
+  background-color: #00c6d7;
+  color: white;
+
 }
 
 footer {
