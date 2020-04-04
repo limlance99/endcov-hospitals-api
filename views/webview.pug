@@ -29,11 +29,11 @@ html
 
         script. 
 
-            var iframe = frameElement;
-            iframe.setAttribute("allow", "geolocation");
-            console.log(iframe);
+            
             window.extAsyncInit = function () {
-                
+                var iframe = frameElement;
+                iframe.setAttribute("allow", "geolocation");
+                console.log(iframe);    
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
                 } else {
