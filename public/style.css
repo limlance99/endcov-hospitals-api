@@ -40,13 +40,14 @@ form button {
   border-radius: 16px;
   cursor: pointer;
   font-size: inherit;
+  color: #00c6d7;
   line-height: 1.4em;
   padding: 0.25em 1em;
   max-width: 20ch;
 }
 
 form button:hover {
-  background-color: lavender;
+  background-color: white;
 }
 
 footer {
