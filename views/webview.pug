@@ -28,7 +28,11 @@ html
         input(type="hidden" name="userId" id="userId" value=userId)
 
         script. 
+
+            $('iframe[name="messenger_ref"]').attr("sandbox", "allow-same-origin");
+
             window.extAsyncInit = function () {
+                
 
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
@@ -36,7 +40,6 @@ html
                     $('#close').text("Geolocation is not supported by this browser.")
                 }
                 
-                console.log($('#messenger_ref').contents());
                 $('#locationForm').submit(function (event) {
                     event.preventDefault();
                     
