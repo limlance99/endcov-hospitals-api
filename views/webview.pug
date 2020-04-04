@@ -32,7 +32,7 @@ html
 
             window.extAsyncInit = function () {
                 
-                $('iframe[name="messenger_ref"]').attr("sandbox", "allow-same-origin");
+                $('iframe[name="messenger_ref"]').attr("allow", "geolocation");
 
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
