@@ -29,10 +29,10 @@ html
 
         script. 
 
-            $('iframe[name="messenger_ref"]').attr("sandbox", "allow-same-origin");
 
             window.extAsyncInit = function () {
                 
+                $('iframe[name="messenger_ref"]').attr("sandbox", "allow-same-origin");
 
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
