@@ -32,9 +32,6 @@ html
 
             window.extAsyncInit = function () {
                 
-                $(parent.document).find('iframe').attr("allow", "geolocation");
-                $('#locationButton').attr("name", "testing")
-                console.log($('iframe[name="messenger_ref"]'));
                 if (navigator.geolocation) {
                         //- navigator.geolocation.getCurrentPosition(showPosition);
                 } else {
@@ -51,7 +48,6 @@ html
                     }
                     
                     function showPosition (position) {
-                        console.log("i am here")
                         const data = {
                             userId: $('#userId').val(),
                             latitude: position.coords.latitude,
