@@ -20,8 +20,8 @@ html
             }(document, 'script', 'Messenger'));
 
         form(id="locationForm")
-            p Click the button below.
-            p This may not work on PC. Be sure to have Location turned on in order for this to work.
+            p By sharing your location, you are letting me know exactly where you are so I can help you!
+            p Click the button below to share your location. (This may not work on PC.) 
             button(id="locationButton" type="submit") Share Location
         
         p(id="close")
@@ -31,12 +31,6 @@ html
 
 
             window.extAsyncInit = function () {
-                
-                if (navigator.geolocation) {
-                        //- navigator.geolocation.getCurrentPosition(showPosition);
-                } else {
-                    $('#close').text("Geolocation is not supported by this browser.")
-                }
                 
                 $('#locationForm').submit(function (event) {
                     event.preventDefault();
@@ -66,7 +60,7 @@ html
 
                     function geoError(event) {
                         console.log(`${event.code}. ${event.message}`);
-                        $('#close').text("Geolocation is not supported by this browser. Try using a phone instead.")
+                        $('#close').text("It appears you have not allowed Location Services for Messenger. Please allow it in Settings and do this again.")
                     }
                 })
             }
