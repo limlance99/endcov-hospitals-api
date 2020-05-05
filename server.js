@@ -10,18 +10,14 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const url = require("url");
 const requestPromise = require("request-promise");
+const axios = require('axios');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
+
 var contents = fs.readFileSync("listOfHospitals.json");
 // Define to JSON type
 const hospitalLocations = JSON.parse(contents);
@@ -220,6 +216,34 @@ app.get('/show-buttons', (request, response) => {
 app.get('/show-webview', (request, response) => {
   const {userId} = request.query;
   response.render('webview', {pageTitle: "Share Location", userId});
+})
+
+
+app.get('/get-stats', async (request, response) => {
+
+  const {Municipality} = request.query;
+  const sheetsUrl = "https://sheet.best/api/sheets/6ac287e6-fe40-4206-8017-3445acf82edb/search";
+
+  var message;
+  const params = {
+      "City/Municipality": Municipality,
+  };
+  try {
+    const data = await axios.get(sheetsUrl, {params});
+    const cases = data.data[0].Frequency;
+    console.log(data.data);
+    message = `There are currently a total of ${cases} recorded cases in ${Municipality}.`;
+  }
+  catch(err) {
+    console.log(err);
+  }
+
+  
+  response.json({
+    messages: [
+      {text: message},
+    ]
+  });
 })
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
