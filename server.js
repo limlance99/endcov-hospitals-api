@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 const url = require("url");
 const requestPromise = require("request-promise");
 const axios = require('axios');
+const gsheets = require("./spreadsheet");
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -222,35 +223,43 @@ app.get('/show-webview', (request, response) => {
 app.get('/get-stats', async (request, response) => {
 
   const {Municipality} = request.query;
-  const sheetsUrl = "https://sheet.best/api/sheets/6ac287e6-fe40-4206-8017-3445acf82edb/search";
+  // const sheetsUrl = "https://sheet.best/api/sheets/6ac287e6-fe40-4206-8017-3445acf82edb/search";
 
-  var message;
-  const params = {
-      "City/Municipality": Municipality,
-  };
-  try {
-    const sheetsData = await axios.get(sheetsUrl, {params});
-    var {Frequency, Died, Recovered} = sheetsData.data[0];
-    var Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
+  // var message;
+  // const params = {
+  //     "City/Municipality": Municipality,
+  // };
+  // try {
+  //   const sheetsData = await axios.get(sheetsUrl, {params});
+  //   const {Frequency, Died, Recovered} = sheetsData.data[0];
+  //   const Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
     
-    Frequency = (Frequency) ? Frequency : 0;
-    Died = (Died) ? Died : 0;
-    Recovered = (Recovered) ? Recovered : 0;
-    Active = (Active) ? Active : 0;
+  //   Frequency = (Frequency) ? Frequency : 0;
     
-    var MunicipalityString = `${Municipality}:\n`;
-    var FrequencyString = `Total Cases: ${Frequency}\n`;
-    var DiedString = `Total Deaths: ${Died}\n`;
-    var RecoveredString = `Total Recoveries: ${Recovered}\n`;
-    var ActiveString = `Total Active Cases: ${Active}`;
+  //   var MunicipalityString = `${Municipality}:\n`;
+  //   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
+  //   var DiedString = `Total Deaths: ${Died || '0'}\n`;
+  //   var RecoveredString = `Total Recoveries: ${Recovered || '0'}\n`;
+  //   var ActiveString = `Total Active Cases: ${Active || '0'}`;
 
-    var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
+  //   var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
 
-  }
-  catch(err) {
-    console.log(err);
-  }
+  // }
+  // catch(err) {
+  //   console.log(err);
+  // }
 
+  var sheetData = await gsheets.accessSpreadsheet(Municipality);
+  const {Frequency, Died, Recovered} = sheetData;
+  const Active = sheetData['Active (Positive-Recovered-Died)'];
+  console.log(Frequency, Died, Recovered, Active);
+  var MunicipalityString = `${Municipality}:\n`;
+  var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
+  var DiedString = `Total Deaths: ${Died || '0'}\n`;
+  var RecoveredString = `Total Recoveries: ${Recovered || '0'}\n`;
+  var ActiveString = `Total Active Cases: ${Active || '0'}`;
+
+  var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
   
   response.json({
     messages: [
