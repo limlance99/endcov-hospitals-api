@@ -230,8 +230,13 @@ app.get('/get-stats', async (request, response) => {
   };
   try {
     const sheetsData = await axios.get(sheetsUrl, {params});
-    const {Frequency, Died, Recovered} = sheetsData.data[0];
-    const Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
+    var {Frequency, Died, Recovered} = sheetsData.data[0];
+    var Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
+    
+    Frequency = (Frequency) ? Frequency : 0;
+    Died = (Died) ? Died : 0;
+    Recovered = (Recovered) ? Recovered : 0;
+    Active = (Active) ? Active : 0;
     
     var MunicipalityString = `${Municipality}:\n`;
     var FrequencyString = `Total Cases: ${Frequency}\n`;
