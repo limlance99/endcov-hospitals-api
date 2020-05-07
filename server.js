@@ -254,7 +254,7 @@ app.get('/get-stats', async (request, response) => {
   const Active = sheetData['Active (Positive-Recovered-Died)'];
   console.log(Frequency, Died, Recovered, Active);
   var MunicipalityString = `${Municipality}:\n`;
-  var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
+  var FrequencyString = `Total Recorded Cases: ${Frequency || '0'}\n`;
   var DiedString = `Total Deaths: ${Died || '0'}\n`;
   var RecoveredString = `Total Recoveries: ${Recovered || '0'}\n`;
   var ActiveString = `Total Active Cases: ${Active || '0'}`;
