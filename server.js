@@ -250,10 +250,10 @@ app.get('/get-stats', async (request, response) => {
   // }
 
   var sheetData = await gsheets.accessSpreadsheet(Municipality);
-  const {Frequency, Died, Recovered} = sheetData;
+  const {Frequency, Died, Recovered, Date} = sheetData;
   const Active = sheetData['Active (Positive-Recovered-Died)'];
   console.log(Frequency, Died, Recovered, Active);
-  var MunicipalityString = `Recorded statistics for ${Municipality} as of today:\n`;
+  var MunicipalityString = `Recorded statistics for ${Municipality} as of ${Date}:\n\n`;
   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
   var DiedString = `Deaths: ${Died || '0'}\n`;
   var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
