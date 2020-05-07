@@ -10,13 +10,14 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const url = require("url");
 const requestPromise = require("request-promise");
-const axios = require('axios');
 const gsheets = require("./spreadsheet");
+const dialogflow = require("./dialogflow");
 
 app.set('view engine', 'pug');
 app.set('views', './views');
 
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
 
 var contents = fs.readFileSync("listOfHospitals.json");
@@ -267,6 +268,14 @@ app.get('/get-stats', async (request, response) => {
     ]
   });
 })
+
+app.post("/dialogflow", async (req, res) => {
+  const queryText = req.body.queryText;
+  console.log(req.body);
+  const redirect_to_blocks = await dialogflow.runDialogflow(queryText);
+
+  res.json({redirect_to_blocks});
+});
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);

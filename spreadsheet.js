@@ -8,9 +8,8 @@ const accessSpreadsheet = async function(Municipality) {
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[8];
-    var rows = await sheet.getRows()
+    var rows = await sheet.getRows();
 
-    console.log(Municipality)
     for(let i = 0; i < rows.length; i++) {
         if (rows[i]["City/Municipality"] == Municipality) {
             return rows[i];
