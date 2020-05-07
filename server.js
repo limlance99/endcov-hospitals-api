@@ -253,11 +253,11 @@ app.get('/get-stats', async (request, response) => {
   const {Frequency, Died, Recovered} = sheetData;
   const Active = sheetData['Active (Positive-Recovered-Died)'];
   console.log(Frequency, Died, Recovered, Active);
-  var MunicipalityString = `${Municipality}:\n`;
-  var FrequencyString = `Total Recorded Cases: ${Frequency || '0'}\n`;
-  var DiedString = `Total Deaths: ${Died || '0'}\n`;
-  var RecoveredString = `Total Recoveries: ${Recovered || '0'}\n`;
-  var ActiveString = `Total Active Cases: ${Active || '0'}`;
+  var MunicipalityString = `Recorded statistics for ${Municipality} as of today:\n`;
+  var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
+  var DiedString = `Deaths: ${Died || '0'}\n`;
+  var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
+  var ActiveString = `Active Cases: ${Active || '0'}`;
 
   var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
   
