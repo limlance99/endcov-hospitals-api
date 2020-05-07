@@ -229,10 +229,18 @@ app.get('/get-stats', async (request, response) => {
       "City/Municipality": Municipality,
   };
   try {
-    const data = await axios.get(sheetsUrl, {params});
-    const cases = data.data[0].Frequency;
-    console.log(data.data);
-    message = `There are currently a total of ${cases} recorded cases in ${Municipality}.`;
+    const sheetsData = await axios.get(sheetsUrl, {params});
+    const {Frequency, Died, Recovered} = sheetsData.data[0];
+    const Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
+    
+    var MunicipalityString = `${Municipality}:\n`;
+    var FrequencyString = `Total Cases: ${Frequency}\n`;
+    var DiedString = `Total Deaths: ${Died}\n`;
+    var RecoveredString = `Total Recoveries: ${Recovered}\n`;
+    var ActiveString = `Total Active Cases: ${Active}`;
+
+    var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
+
   }
   catch(err) {
     console.log(err);
