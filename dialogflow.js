@@ -27,7 +27,9 @@ async function runDialogflow(queryText) {
   const responses = await sessionClient.detectIntent(request);
   console.log('Detected intent');
   const result = responses[0].queryResult;
-  var redirect_to_blocks = result.fulfillmentMessages[0].payload.fields.redirect_to_blocks.listValue.values.map(block => block.stringValue);
+  // var redirect_to_blocks = result.fulfillmentMessages[0].payload.fields.redirect_to_blocks.listValue.values.map(block => block.stringValue);
+
+  var redirect_to_blocks = result.fulfillmentText.split(',');
   return redirect_to_blocks;
 
 }
