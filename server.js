@@ -259,9 +259,10 @@ app.post("/dialogflow", async (req, res) => {
 
   if (city_municipality) {
     data = {
-      messages: [
-        {text: await getStats(city_municipality)}
-      ]
+      set_attributes: {
+        city_statistic: city_municipality
+      },
+      redirect_to_blocks
     }
   } else {
     data = {redirect_to_blocks};

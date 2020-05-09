@@ -32,7 +32,7 @@ async function runDialogflow(queryText) {
   var redirect_to_blocks = result.fulfillmentText.split(',');
 
   var city_municipality = null;
-  if (redirect_to_blocks[0] == "ncr stats") city_municipality = result.parameters.fields["ncr-city-municipality"].stringValue; 
+  if (redirect_to_blocks[0] == "Stat Intro: Randomizer") city_municipality = result.parameters.fields["ncr-city-municipality"].stringValue; 
   return {
     redirect_to_blocks, city_municipality
   };
