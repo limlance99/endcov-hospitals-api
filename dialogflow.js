@@ -30,7 +30,12 @@ async function runDialogflow(queryText) {
   // var redirect_to_blocks = result.fulfillmentMessages[0].payload.fields.redirect_to_blocks.listValue.values.map(block => block.stringValue);
 
   var redirect_to_blocks = result.fulfillmentText.split(',');
-  return redirect_to_blocks;
+
+  var city_municipality = null;
+  if (redirect_to_blocks[0] == "ncr stats") city_municipality = result.parameters.fields["ncr-city-municipality"].stringValue; 
+  return {
+    redirect_to_blocks, city_municipality
+  };
 
 }
 

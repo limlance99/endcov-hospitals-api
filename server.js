@@ -20,6 +20,23 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 
+const getStats = async function(Municipality){
+  var sheetData = await gsheets.accessSpreadsheet(Municipality);
+  const {Frequency, Died, Recovered, Date} = sheetData;
+  const Active = sheetData['Active (Positive-Recovered-Died)'];
+  console.log(Frequency, Died, Recovered, Active);
+  var MunicipalityString = `Recorded statistics for ${Municipality} as of ${Date}:\n\n`;
+  var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
+  var DiedString = `Deaths: ${Died || '0'}\n`;
+  var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
+  var ActiveString = `Active Cases: ${Active || '0'}`;
+
+  var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
+  
+  return message;
+}
+
+
 var contents = fs.readFileSync("listOfHospitals.json");
 // Define to JSON type
 const hospitalLocations = JSON.parse(contents);
@@ -224,44 +241,8 @@ app.get('/show-webview', (request, response) => {
 app.get('/get-stats', async (request, response) => {
 
   const {Municipality} = request.query;
-  // const sheetsUrl = "https://sheet.best/api/sheets/6ac287e6-fe40-4206-8017-3445acf82edb/search";
-
-  // var message;
-  // const params = {
-  //     "City/Municipality": Municipality,
-  // };
-  // try {
-  //   const sheetsData = await axios.get(sheetsUrl, {params});
-  //   const {Frequency, Died, Recovered} = sheetsData.data[0];
-  //   const Active = sheetsData.data[0]['Active (Positive-Recovered-Died)'];
-    
-  //   Frequency = (Frequency) ? Frequency : 0;
-    
-  //   var MunicipalityString = `${Municipality}:\n`;
-  //   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
-  //   var DiedString = `Total Deaths: ${Died || '0'}\n`;
-  //   var RecoveredString = `Total Recoveries: ${Recovered || '0'}\n`;
-  //   var ActiveString = `Total Active Cases: ${Active || '0'}`;
-
-  //   var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
-
-  // }
-  // catch(err) {
-  //   console.log(err);
-  // }
-
-  var sheetData = await gsheets.accessSpreadsheet(Municipality);
-  const {Frequency, Died, Recovered, Date} = sheetData;
-  const Active = sheetData['Active (Positive-Recovered-Died)'];
-  console.log(Frequency, Died, Recovered, Active);
-  var MunicipalityString = `Recorded statistics for ${Municipality} as of ${Date}:\n\n`;
-  var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
-  var DiedString = `Deaths: ${Died || '0'}\n`;
-  var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
-  var ActiveString = `Active Cases: ${Active || '0'}`;
-
-  var message = MunicipalityString + FrequencyString + DiedString + RecoveredString + ActiveString;
   
+  var message = await getStats(Municipality);
   response.json({
     messages: [
       {text: message},
@@ -271,10 +252,21 @@ app.get('/get-stats', async (request, response) => {
 
 app.post("/dialogflow", async (req, res) => {
   const queryText = req.body.queryText;
-  console.log(req.body);
-  const redirect_to_blocks = await dialogflow.runDialogflow(queryText);
+  
+  var data;
+  
+  const {redirect_to_blocks, city_municipality} = await dialogflow.runDialogflow(queryText);
 
-  res.json({redirect_to_blocks});
+  if (city_municipality) {
+    data = {
+      messages: [
+        {text: await getStats(city_municipality)}
+      ]
+    }
+  } else {
+    data = {redirect_to_blocks};
+  }
+  res.json(data);
 });
 
 // listen for requests :)
