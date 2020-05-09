@@ -23,9 +23,10 @@ app.use(bodyParser.json());
 const getStats = async function(Municipality){
   var sheetData = await gsheets.accessSpreadsheet(Municipality);
   const {Frequency, Died, Recovered, Date} = sheetData;
+  const Muni_Province = sheetData['Muni, Province'];
   const Active = sheetData['Active (Positive-Recovered-Died)'];
-  console.log(Frequency, Died, Recovered, Active);
-  var MunicipalityString = `Here are the COVID-19 statistics for ${Municipality} as of ${Date}:\n\n`;
+
+  var MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`;
   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
   var DiedString = `Deaths: ${Died || '0'}\n`;
   var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
