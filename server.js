@@ -20,15 +20,17 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 
-const getStats = async function(Municipality, Province){
-  var sheetData = await gsheets.accessSpreadsheet(Municipality, Province);
+const getStats = async function(Municipality, Province, Country){
+  var sheetData = await gsheets.accessSpreadsheet(Municipality, Province, Country);
 
   // TODO: PLACE MAKES NO SENSE
   if (sheetData.walangLaman) return {walangLaman: true};
   if (sheetData.duplicateFound) return {duplicateFound: true};
 
   const {Frequency, Died, Recovered, Date} = sheetData;
-  const Muni_Province = (Province && !(Municipality)) ? sheetData["Province"] : sheetData['Muni, Province'];
+  var Muni_Province = (Province && !(Municipality)) ? sheetData["Province"] : sheetData['Muni, Province'];
+
+  if (Country) Muni_Province = "the Philippines";
   const Active = sheetData['Active (Positive-Recovered-Died)'];
 
   var MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`;
@@ -248,8 +250,8 @@ app.get('/get-stats', async (request, response) => {
 
   const Municipality = request.query.Municipality;
   const Province = request.query.Province;
-  
-  var message = await getStats(Municipality, Province);
+  const Country = request.query.Country;
+  var message = await getStats(Municipality, Province, Country);
 
   console.log(message);
   if (message.walangLaman) {
@@ -277,13 +279,24 @@ app.post("/dialogflow", async (req, res) => {
   
   var data;
   
-  const {redirect_to_blocks, city_municipality, province} = await dialogflow.runDialogflow(queryText);
+  const {redirect_to_blocks, city_municipality, province, country} = await dialogflow.runDialogflow(queryText);
 
-  if (city_municipality && province) {
+  if (country) {
+    data = {
+      set_attributes: {
+        city_statistic: null,
+        province_statistic: null,
+        country_statistic: country,
+      },
+      redirect_to_blocks
+    }
+  }
+  else if (city_municipality && province) {
     data = {
       set_attributes: {
         city_statistic: city_municipality,
-        province_statistic: province
+        province_statistic: province,
+        country_statistic: null,
       },
       redirect_to_blocks
     }
@@ -292,6 +305,7 @@ app.post("/dialogflow", async (req, res) => {
       set_attributes: {
         city_statistic: city_municipality,
         province_statistic: null,
+        country_statistic: null,
       },
       redirect_to_blocks
     };
@@ -300,6 +314,7 @@ app.post("/dialogflow", async (req, res) => {
       set_attributes: {
         city_statistic: null,
         province_statistic: province,
+        country_statistic: null,
       },
       redirect_to_blocks
     };
@@ -308,6 +323,7 @@ app.post("/dialogflow", async (req, res) => {
       set_attributes: {
         city_statistic: null,
         province_statistic: null,
+        country_statistic: null,
       },
       redirect_to_blocks
     };

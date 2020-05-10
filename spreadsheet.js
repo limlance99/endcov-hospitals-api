@@ -8,13 +8,27 @@ const {GoogleSpreadsheet} = require('google-spreadsheet');
 
 const creds = require('./client_secret.json');
 
-const accessSpreadsheet = async function(Municipality, Province) {
+const accessSpreadsheet = async function(Municipality, Province, Country) {
     const doc = new GoogleSpreadsheet('1_jtQIH2K_MWxZevBCJ1NGO1DY7loHv1FWWGeq-mvksc');
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
 
     var sheet, rows;
-    console.log("hello", Municipality, Province);
+    console.log("hello", Municipality, Province, Country);
+
+    if (Country) {
+        sheet = doc.sheetsByIndex[9];
+        await sheet.loadCells(['I2:I5', 'H2']);
+        
+        return {
+            Frequency: sheet.getCellByA1('I2').formattedValue,
+            Died: sheet.getCellByA1('I3').formattedValue,
+            Recovered: sheet.getCellByA1('I4').formattedValue,
+            "Active (Positive-Recovered-Died)": sheet.getCellByA1('I5').formattedValue,
+            Date: sheet.getCellByA1('H2').formattedValue,
+        };
+    }
+
     if (Municipality) {
         sheet = doc.sheetsByIndex[8];
         rows = await sheet.getRows();

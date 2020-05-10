@@ -33,12 +33,14 @@ async function runDialogflow(queryText) {
 
   var city_municipality = null;
   var province = null;
+  var country = null;
   if (redirect_to_blocks[0] == "Stat Intro: Randomizer") {
     city_municipality = result.parameters.fields["city-municipality"].stringValue;
     province = result.parameters.fields["provinces"].stringValue;
+    country = result.parameters.fields["country"].stringValue;
   } 
   return {
-    redirect_to_blocks, city_municipality, province
+    redirect_to_blocks, city_municipality, province, country
   };
 
 }
