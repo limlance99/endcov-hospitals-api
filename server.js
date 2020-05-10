@@ -24,7 +24,7 @@ const getStats = async function(Municipality, Province){
   var sheetData = await gsheets.accessSpreadsheet(Municipality, Province);
 
   // TODO: PLACE MAKES NO SENSE
-  if (sheetData.walangLaman) return false;
+  if (sheetData.walangLaman) return {walangLaman: true};
   if (sheetData.duplicateFound) return {duplicateFound: true};
 
   const {Frequency, Died, Recovered, Date} = sheetData;
@@ -251,10 +251,9 @@ app.get('/get-stats', async (request, response) => {
   
   var message = await getStats(Municipality, Province);
 
-  if (!message) {
+  if (message.walangLaman) {
     response.json({
-      // TODO: REDIRECT TO ERROR
-      redirect_to_blocks: ["Default Fallback"],
+      redirect_to_blocks: ["Barangay Reply: Randomizer"],
     })
   }
   else if (message.duplicateFound) {
