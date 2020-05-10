@@ -21,13 +21,13 @@ const accessSpreadsheet = async function(Municipality, Province) {
 
         if (Province) {
             for(let i = 0; i < rows.length; i++) {
-                if (rows[i]["City/Municipality"] == Municipality && rows[i]["Province"] == Province) return rows[i];
+                if ((rows[i]["City/Municipality"] == Municipality || rows[i]["City/Municipality"].includes(Municipality)) && rows[i]["Province"] == Province) return rows[i];
             }
         } else {
 
             if (duplicates.includes(Municipality)) return {duplicateFound: true};
             for(let i = 0; i < rows.length; i++) {
-                if (rows[i]["City/Municipality"] == Municipality) return rows[i];
+                if (rows[i]["City/Municipality"] == Municipality || rows[i]["City/Municipality"].includes(Municipality)) return rows[i];
             }
         }
         return {walangLaman: true};
