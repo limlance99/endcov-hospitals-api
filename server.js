@@ -304,7 +304,11 @@ app.post("/dialogflow", async (req, res) => {
       redirect_to_blocks
     };
   } else {
-    data = {redirect_to_blocks};
+    data = {
+      city_statistic: null,
+      province_statistic: null,
+      redirect_to_blocks
+    };
   }
   res.json(data);
 });
