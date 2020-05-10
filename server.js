@@ -251,6 +251,7 @@ app.get('/get-stats', async (request, response) => {
   
   var message = await getStats(Municipality, Province);
 
+  console.log(message);
   if (message.walangLaman) {
     response.json({
       redirect_to_blocks: ["Barangay Reply: Randomizer"],
