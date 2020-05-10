@@ -20,10 +20,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 
-const getStats = async function(Municipality){
-  var sheetData = await gsheets.accessSpreadsheet(Municipality);
+const getStats = async function(Municipality, Province){
+  var sheetData = await gsheets.accessSpreadsheet(Municipality, Province);
+
+  if (sheetData.walangLaman) return false;
+
   const {Frequency, Died, Recovered, Date} = sheetData;
-  const Muni_Province = sheetData['Muni, Province'];
+  const Muni_Province = (Province && !(Municipality)) ? sheetData["Province"] : sheetData['Muni, Province'];
   const Active = sheetData['Active (Positive-Recovered-Died)'];
 
   var MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`;
@@ -241,9 +244,10 @@ app.get('/show-webview', (request, response) => {
 
 app.get('/get-stats', async (request, response) => {
 
-  const {Municipality} = request.query;
+  const Municipality = request.query.Municipality;
+  const Province = request.query.Province;
   
-  var message = await getStats(Municipality);
+  var message = await getStats(Municipality, Province);
   response.json({
     messages: [
       {text: message},
@@ -256,15 +260,32 @@ app.post("/dialogflow", async (req, res) => {
   
   var data;
   
-  const {redirect_to_blocks, city_municipality} = await dialogflow.runDialogflow(queryText);
+  const {redirect_to_blocks, city_municipality, province} = await dialogflow.runDialogflow(queryText);
 
-  if (city_municipality) {
+  if (city_municipality && province) {
     data = {
       set_attributes: {
-        city_statistic: city_municipality
+        city_statistic: city_municipality,
+        province_statistic: province
       },
       redirect_to_blocks
     }
+  } else if (city_municipality) {
+    data = {
+      set_attributes: {
+        city_statistic: city_municipality,
+        province_statistic: null,
+      },
+      redirect_to_blocks
+    };
+  } else if(province_statistic) {
+    data = {
+      set_attributes: {
+        city_statistic: null,
+        province_statistic: province,
+      },
+      redirect_to_blocks
+    };
   } else {
     data = {redirect_to_blocks};
   }
