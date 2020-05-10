@@ -251,6 +251,7 @@ app.get('/get-stats', async (request, response) => {
 
   if (!message) {
     response.json({
+      // TODO: REDIRECT TO ERROR
       redirect_to_blocks: ["Default Fallback"],
     })
   }
@@ -284,7 +285,7 @@ app.post("/dialogflow", async (req, res) => {
       },
       redirect_to_blocks
     };
-  } else if(province_statistic) {
+  } else if(province) {
     data = {
       set_attributes: {
         city_statistic: null,
