@@ -41,6 +41,7 @@ const accessSpreadsheet = async function(Municipality, Province) {
 
         return {walangLaman: true};
     } 
+    return {walangLaman: true};
 }
 
 module.exports = ({
