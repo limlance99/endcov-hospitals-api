@@ -1,3 +1,8 @@
+const fs = require("fs");
+var contents = fs.readFileSync("listOfDuplicates.json");
+// Define to JSON type
+const duplicates = JSON.parse(contents);
+
 const {GoogleSpreadsheet} = require('google-spreadsheet');
 // const { promisify } = require('util');
 
@@ -19,6 +24,8 @@ const accessSpreadsheet = async function(Municipality, Province) {
                 if (rows[i]["City/Municipality"] == Municipality && rows[i]["Province"] == Province) return rows[i];
             }
         } else {
+
+            if (duplicates.includes(Municipality)) return {duplicateFound: true};
             for(let i = 0; i < rows.length; i++) {
                 if (rows[i]["City/Municipality"] == Municipality) return rows[i];
             }
@@ -39,28 +46,3 @@ const accessSpreadsheet = async function(Municipality, Province) {
 module.exports = ({
     accessSpreadsheet
 })
-
-// const testFunction = async function() {
-//     const doc = new GoogleSpreadsheet('1_jtQIH2K_MWxZevBCJ1NGO1DY7loHv1FWWGeq-mvksc');
-//     await doc.useServiceAccountAuth(creds);
-//     await doc.loadInfo();
-//     const sheet = doc.sheetsByIndex[8];
-//     var rows = await sheet.getRows();
-
-//     var itemlist = [];
-//     var duplicates = [];
-//     for (let row of rows) {
-//         if (!(itemlist.includes(row["City/Municipality"]))) itemlist.push(row["City/Municipality"]);
-//         else if (!(duplicates.includes(row["City/Municipality"]))) duplicates.push(row["City/Municipality"]);
-//     }
-
-//     console.log("Total numer of cities:", rows.length);
-//     console.log("Total number of cities (no duplicates):", itemlist.length);
-//     console.log("Total number of duplicates:", duplicates.length);
-//     console.log("\nList of cities:\n");
-//     for (let item of itemlist) {
-//         console.log(item);
-//     }
-// }
-
-// testFunction();

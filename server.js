@@ -23,7 +23,9 @@ app.use(bodyParser.json());
 const getStats = async function(Municipality, Province){
   var sheetData = await gsheets.accessSpreadsheet(Municipality, Province);
 
+  // TODO: PLACE MAKES NO SENSE
   if (sheetData.walangLaman) return false;
+  if (sheetData.duplicateFound) return {duplicateFound: true};
 
   const {Frequency, Died, Recovered, Date} = sheetData;
   const Muni_Province = (Province && !(Municipality)) ? sheetData["Province"] : sheetData['Muni, Province'];
@@ -255,11 +257,19 @@ app.get('/get-stats', async (request, response) => {
       redirect_to_blocks: ["Default Fallback"],
     })
   }
-  response.json({
-    messages: [
-      {text: message},
-    ]
-  });
+  else if (message.duplicateFound) {
+    response.json({
+      redirect_to_blocks: ["Inc Search: Randomizer"],
+    })
+  }
+  
+  else {
+    response.json({
+      messages: [
+        {text: message},
+      ]
+    });
+  }
 })
 
 app.post("/dialogflow", async (req, res) => {
