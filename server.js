@@ -248,6 +248,12 @@ app.get('/get-stats', async (request, response) => {
   const Province = request.query.Province;
   
   var message = await getStats(Municipality, Province);
+
+  if (!message) {
+    response.json({
+      redirect_to_blocks: ["Default Fallback"],
+    })
+  }
   response.json({
     messages: [
       {text: message},
