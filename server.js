@@ -252,6 +252,7 @@ app.get('/get-stats', async (request, response) => {
   const Province = request.query.Province;
   const Country = request.query.Country;
   const Region = request.query.Region;
+  console.log("getting stats:", Municipality, Province, Country, Region);
   var message = await getStats(Municipality, Province, Country, Region);
 
   console.log(message);
@@ -289,7 +290,8 @@ app.post("/dialogflow", async (req, res) => {
         province_statistic: null,
         country_statistic: null,
         region_statistic: region,
-      }
+      },
+      redirect_to_blocks
     }
   } else if (country) {
     data = {
@@ -342,6 +344,7 @@ app.post("/dialogflow", async (req, res) => {
       redirect_to_blocks
     };
   }
+  console.log(data);
   res.json(data);
 });
 
