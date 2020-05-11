@@ -1,5 +1,5 @@
 const fs = require("fs");
-var contents = fs.readFileSync("listOfDuplicates.json");
+var contents = fs.readFileSync("database/listOfDuplicates.json");
 // Define to JSON type
 const duplicates = JSON.parse(contents);
 
@@ -8,15 +8,23 @@ const {GoogleSpreadsheet} = require('google-spreadsheet');
 
 const creds = require('./client_secret.json');
 
-const accessSpreadsheet = async function(Municipality, Province, Country) {
+const accessSpreadsheet = async function(Municipality, Province, Country, Region) {
     const doc = new GoogleSpreadsheet('1_jtQIH2K_MWxZevBCJ1NGO1DY7loHv1FWWGeq-mvksc');
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
 
     var sheet, rows;
-    console.log("hello", Municipality, Province, Country);
+    console.log("hello", Municipality, Province, Country, Region);
+    if (Region) {
+        sheet = doc.sheetsByIndex[10];
+        rows = await sheet.getRows();
 
-    if (Country) {
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i]["Province"] == Region) return rows[i];
+        }
+        
+        return {walangLaman: true};
+    } else if (Country) {
         sheet = doc.sheetsByIndex[9];
         await sheet.loadCells(['I2:I5', 'H2']);
         

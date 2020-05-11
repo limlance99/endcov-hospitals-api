@@ -20,15 +20,15 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 
-const getStats = async function(Municipality, Province, Country){
-  var sheetData = await gsheets.accessSpreadsheet(Municipality, Province, Country);
+const getStats = async function(Municipality, Province, Country, Region){
+  var sheetData = await gsheets.accessSpreadsheet(Municipality, Province, Country, Region);
 
   // TODO: PLACE MAKES NO SENSE
   if (sheetData.walangLaman) return {walangLaman: true};
   if (sheetData.duplicateFound) return {duplicateFound: true};
 
   const {Frequency, Died, Recovered, Date} = sheetData;
-  var Muni_Province = (Province && !(Municipality)) ? sheetData["Province"] : sheetData['Muni, Province'];
+  var Muni_Province = ((Province && !(Municipality)) || Region) ? sheetData["Province"] : sheetData['Muni, Province'];
 
   if (Country) Muni_Province = "the Philippines";
   const Active = sheetData['Active (Positive-Recovered-Died)'];
@@ -45,7 +45,7 @@ const getStats = async function(Municipality, Province, Country){
 }
 
 
-var contents = fs.readFileSync("listOfHospitals.json");
+var contents = fs.readFileSync("database/listOfHospitals.json");
 // Define to JSON type
 const hospitalLocations = JSON.parse(contents);
 
@@ -251,7 +251,8 @@ app.get('/get-stats', async (request, response) => {
   const Municipality = request.query.Municipality;
   const Province = request.query.Province;
   const Country = request.query.Country;
-  var message = await getStats(Municipality, Province, Country);
+  const Region = request.query.Region;
+  var message = await getStats(Municipality, Province, Country, Region);
 
   console.log(message);
   if (message.walangLaman) {
@@ -279,24 +280,34 @@ app.post("/dialogflow", async (req, res) => {
   
   var data;
   
-  const {redirect_to_blocks, city_municipality, province, country} = await dialogflow.runDialogflow(queryText);
+  const {redirect_to_blocks, city_municipality, province, country, region} = await dialogflow.runDialogflow(queryText);
 
-  if (country) {
+  if (region) {
+    data = {
+      set_attributes: {
+        city_statistic: null,
+        province_statistic: null,
+        country_statistic: null,
+        region_statistic: region,
+      }
+    }
+  } else if (country) {
     data = {
       set_attributes: {
         city_statistic: null,
         province_statistic: null,
         country_statistic: country,
+        region_statistic: null,
       },
       redirect_to_blocks
     }
-  }
-  else if (city_municipality && province) {
+  } else if (city_municipality && province) {
     data = {
       set_attributes: {
         city_statistic: city_municipality,
         province_statistic: province,
         country_statistic: null,
+        region_statistic: null,
       },
       redirect_to_blocks
     }
@@ -306,6 +317,7 @@ app.post("/dialogflow", async (req, res) => {
         city_statistic: city_municipality,
         province_statistic: null,
         country_statistic: null,
+        region_statistic: null,
       },
       redirect_to_blocks
     };
@@ -315,6 +327,7 @@ app.post("/dialogflow", async (req, res) => {
         city_statistic: null,
         province_statistic: province,
         country_statistic: null,
+        region_statistic: null,
       },
       redirect_to_blocks
     };
@@ -324,6 +337,7 @@ app.post("/dialogflow", async (req, res) => {
         city_statistic: null,
         province_statistic: null,
         country_statistic: null,
+        region_statistic: null,
       },
       redirect_to_blocks
     };
