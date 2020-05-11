@@ -25,14 +25,14 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         
         return {walangLaman: true};
     } else if (Country) {
-        sheet = doc.sheetsById[1451886157]; // CovidCase per Prov
-        await sheet.loadCells(['I2:I5', 'H2']);
+        sheet = doc.sheetsById[1465928900]; // CovidCase per Prov
+        await sheet.loadCells(['L2:L5', 'H2']);
         
         return {
-            Frequency: sheet.getCellByA1('I2').formattedValue,
-            Died: sheet.getCellByA1('I3').formattedValue,
-            Recovered: sheet.getCellByA1('I4').formattedValue,
-            "Active (Positive-Recovered-Died)": sheet.getCellByA1('I5').formattedValue,
+            Frequency: sheet.getCellByA1('L2').formattedValue,
+            Died: sheet.getCellByA1('L3').formattedValue,
+            Recovered: sheet.getCellByA1('L4').formattedValue,
+            "Active (Positive-Recovered-Died)": sheet.getCellByA1('L5').formattedValue,
             Date: sheet.getCellByA1('H2').formattedValue,
         };
     }
