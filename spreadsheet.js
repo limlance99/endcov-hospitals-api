@@ -16,7 +16,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
     var sheet, rows;
     console.log("hello", Municipality, Province, Country, Region);
     if (Region) {
-        sheet = doc.sheetsByIndex[12];
+        sheet = doc.sheetsById[1465928900]; // CovidCase per Reg
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
@@ -25,7 +25,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         
         return {walangLaman: true};
     } else if (Country) {
-        sheet = doc.sheetsByIndex[9];
+        sheet = doc.sheetsById[1451886157]; // CovidCase per Prov
         await sheet.loadCells(['I2:I5', 'H2']);
         
         return {
@@ -38,7 +38,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
     }
 
     if (Municipality) {
-        sheet = doc.sheetsByIndex[8];
+        sheet = doc.sheetsById[908968772]; //CovidCase per Mun
         rows = await sheet.getRows();
 
         if (Province) {
@@ -54,7 +54,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         }
         return {walangLaman: true};
     } else if (Province) {
-        sheet = doc.sheetsByIndex[9];
+        sheet = doc.sheetsByIndex[1451886157]; // CovidCase per Prov
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
