@@ -54,7 +54,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         }
         return {walangLaman: true};
     } else if (Province) {
-        sheet = doc.sheetsByIndex[1451886157]; // CovidCase per Prov
+        sheet = doc.sheetsById[1451886157]; // CovidCase per Prov
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
