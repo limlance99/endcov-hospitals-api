@@ -16,7 +16,7 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
     var sheet, rows;
     console.log("hello", Municipality, Province, Country, Region);
     if (Region) {
-        sheet = doc.sheetsByIndex[10];
+        sheet = doc.sheetsByIndex[12];
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
