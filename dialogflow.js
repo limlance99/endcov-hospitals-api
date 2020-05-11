@@ -41,6 +41,7 @@ async function runDialogflow(queryText) {
     country = result.parameters.fields["country"].stringValue;
     region = result.parameters.fields["region"].stringValue;
   } 
+  console.log("data received:", city_municipality, province, region, country);
   return {
     redirect_to_blocks, city_municipality, province, country, region
   };
