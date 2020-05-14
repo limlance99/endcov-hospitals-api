@@ -13,6 +13,11 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
 
+    Municipality = Municipality.toLowerCase();
+    Province = Province.toLowerCase();
+    Country = Country.toLowerCase();
+    Region = Region.toLowerCase();
+
     var sheet, rows;
     console.log("hello", Municipality, Province, Country, Region);
     if (Region) {
@@ -20,7 +25,8 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
-            if (rows[i]["Province"] == Region) return rows[i];
+            let row = rows[i]["Province"].toLowerCase();
+            if (row == Region) return rows[i];
         }
         
         return {walangLaman: true};
@@ -43,13 +49,16 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
 
         if (Province) {
             for(let i = 0; i < rows.length; i++) {
-                if ((rows[i]["City/Municipality"] == Municipality || rows[i]["City/Municipality"].includes(Municipality)) && rows[i]["Province"] == Province) return rows[i];
+                let row_mun = rows[i]["City/Municipality"].toLowerCase();
+                let row_prov = rows[i]["Province"].toLowerCase();
+                if ((row_mun == Municipality || row_mun.includes(Municipality)) && row_prov == Province) return rows[i];
             }
         } else {
 
             if (duplicates.includes(Municipality)) return {duplicateFound: true};
             for(let i = 0; i < rows.length; i++) {
-                if (rows[i]["City/Municipality"] == Municipality || rows[i]["City/Municipality"].includes(Municipality)) return rows[i];
+                let row = rows[i]["City/Municipality"].toLowerCase();
+                if (row == Municipality || row.includes(Municipality)) return rows[i];
             }
         }
         return {walangLaman: true};
@@ -58,7 +67,8 @@ const accessSpreadsheet = async function(Municipality, Province, Country, Region
         rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
-            if (rows[i]["Province"] == Province) return rows[i];
+            let row = rows[i]["Province"].toLowerCase();
+            if (row == Province) return rows[i];
         }
 
         return {walangLaman: true};
