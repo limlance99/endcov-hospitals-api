@@ -209,14 +209,21 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   })
 })
 
-const createButtons = (displayUrl) => {
+const createButtons = (displayUrl, language) => {
+
+  var messageText;
+
+  if (language == "beki") messageText = "Sana wititit pa itey malaley. Saanchi ka ngayonchi?";
+  else messageText = "I hope this is not an urgent need. Where are you located right now?";
+    
+  }
   return  {messages: [
     {
       attachment: {
         type: 'template',
         payload: {
           template_type: 'button',
-          text: 'I hope this is not an urgent need. Where are you located right now?',
+          text: messageText,
           buttons: [
             {
               title: "Share Location",
@@ -233,11 +240,12 @@ const createButtons = (displayUrl) => {
 };
 
 app.get('/show-buttons', (request, response) => {
-  const {userId} = request.query;
+  const userId = request.query.userId;
+  const language = request.query.language;
   
   const displayUrl = `https://endcov-hospitals-api.herokuapp.com/show-webview?userId=${userId}`;
 
-  response.json(createButtons(displayUrl)); 
+  response.json(createButtons(displayUrl, language)); 
 });
 
 app.get('/show-webview', (request, response) => {
