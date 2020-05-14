@@ -215,7 +215,7 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
 const createButtons = (displayUrl, language) => {
 
   var messageText;
-
+  console.log(language);
   if (language == "beki") messageText = "Sana wititit pa itey malaley. Saanchi ka ngayonchi?";
   else messageText = "I hope this is not an urgent need. Where are you located right now?";
     
