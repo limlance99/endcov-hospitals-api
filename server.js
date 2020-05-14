@@ -172,12 +172,15 @@ app.post('/broadcast-to-chatfuel', (request, response) => {
   const curr_lat = request.body.latitude;
   const curr_long = request.body.longitude;
   const userId = request.body.userId;
+  const language = request.body.language;
   
   const botId = process.env.CHATFUEL_BOT_ID;
   const chatfuelToken = process.env.CHATFUEL_TOKEN;
   
-  console.log(userId);
-  const blockName = "Hospitals / Location Results";
+  var blockName;
+  
+  if (language == "beki") blockName = "Hospitals / Location Results [Beki]";
+  else blockName = "Hospitals / Location Results";
   const broadcastApiUrl = `https://api.chatfuel.com/bots/${botId}/users/${userId}/send`;
   
   const query = Object.assign(
@@ -242,14 +245,15 @@ app.get('/show-buttons', (request, response) => {
   const userId = request.query.userId;
   const language = request.query.language;
   
-  const displayUrl = `https://endcov-hospitals-api.herokuapp.com/show-webview?userId=${userId}`;
+  const displayUrl = `https://endcov-hospitals-api.herokuapp.com/show-webview?userId=${userId}&language=${language}`;
 
   response.json(createButtons(displayUrl, language)); 
 });
 
 app.get('/show-webview', (request, response) => {
-  const {userId} = request.query;
-  response.render('webview', {pageTitle: "Share Location", userId});
+  const userId = request.query.userId;
+  const language = request.query.language;
+  response.render('webview', {pageTitle: "Share Location", userId, language});
 })
 
 

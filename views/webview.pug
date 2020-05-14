@@ -26,6 +26,7 @@ html
         
         p(id="close")
         input(type="hidden" name="userId" id="userId" value=userId)
+        input(type="hidden" name="language" id="language" value=language)
 
         script. 
 
@@ -44,6 +45,7 @@ html
                     function showPosition (position) {
                         const data = {
                             userId: $('#userId').val(),
+                            language: $('#language').val(),
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
