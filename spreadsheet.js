@@ -1,7 +1,9 @@
 const fs = require("fs");
 var contents = fs.readFileSync("database/listOfDuplicates.json");
 // Define to JSON type
-const duplicates = JSON.parse(contents);
+var duplicates = JSON.parse(contents);
+
+for (let i = 0; i < duplicates.length; i++) duplicates[i] = duplicates[i].toLowerCase();
 
 const {GoogleSpreadsheet} = require('google-spreadsheet');
 // const { promisify } = require('util');
