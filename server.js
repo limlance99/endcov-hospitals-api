@@ -33,7 +33,8 @@ const getStats = async function(Municipality, Province, Country, Region){
   if (Country) Muni_Province = "the Philippines";
   const Active = sheetData['Active (Positive-Recovered-Died)'];
 
-  var MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`;
+  if (language == "beki") MunicipalityString = `Itey na ang COVID-19 chorva sa ${Muni_Province} as of ${Date}:\n\n`;
+  else MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`
   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
   var DiedString = `Deaths: ${Died || '0'}\n`;
   var RecoveredString = `Recoveries: ${Recovered || '0'}\n`;
@@ -263,8 +264,10 @@ app.get('/get-stats', async (request, response) => {
   const Province = request.query.Province;
   const Country = request.query.Country;
   const Region = request.query.Region;
-  console.log("getting stats:", Municipality, Province, Country, Region);
-  var message = await getStats(Municipality, Province, Country, Region);
+  const language = request.query.language;
+
+  console.log("getting stats:", Municipality, Province, Country, Region, language);
+  var message = await getStats(Municipality, Province, Country, Region, language);
 
   console.log(message);
   if (message.walangLaman) {
