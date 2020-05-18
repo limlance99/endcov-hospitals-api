@@ -33,6 +33,7 @@ const getStats = async function(Municipality, Province, Country, Region){
   if (Country) Muni_Province = "the Philippines";
   const Active = sheetData['Active (Positive-Recovered-Died)'];
 
+  var MunicipalityString;
   if (language == "beki") MunicipalityString = `Itey na ang COVID-19 chorva sa ${Muni_Province} as of ${Date}:\n\n`;
   else MunicipalityString = `Here are the COVID-19 statistics for ${Muni_Province} as of ${Date}:\n\n`
   var FrequencyString = `Total Cases: ${Frequency || '0'}\n`;
